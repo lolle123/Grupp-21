@@ -6,13 +6,12 @@
 // param - answer- bolean correct or incorrect answer
 // param - current  number- current elo
 
-export function elo(time, difficulty, answer, current) {
+export function elo(time: number, difficulty: number, answer: boolean, current: number): number | undefined {
     if (answer) {
         // rätt svar, (better time more elo, hardder difficulty more elo)
-        return current + (10 - 
+        return current + ((10 - time)* 10 * difficulty);
     } else {
         //fel svar,  (time doesnt matter, easier question = less elo)
+        return current - (50 * (3 - difficulty));
     }
-
-
 }

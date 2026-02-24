@@ -5,23 +5,23 @@ import {
 import {
     questionssvår, questionsmedel, questionslätt
 } from '../questions'
+import
 // @ts-ignore
-import promptSync = require('prompt-sync');
+import prom./API/apiquire('prompt-sync');
 const prompt = promptSync();
 
-function splashscreen() : any {
+export function splashscreen() : any {
     console.log("Welcome to QuizMaster")
     let inputen = prompt("Välj en svårighets grad: Svår, Medel, Lätt: ")
     if (inputen === "Svår") {
-        let svaret = prompt(questionssvår())
-        if (svaret === "Uplands") {
-            return "Rätt";
+        if (TriviaResult.difficulty === "hard")
+            return get_questions(https://opentdb.com/api.php?amount=10&difficulty=hard);    
         }
     }
     else if (inputen === "Medel") {
         let svaret = prompt(questionsmedel())
-        if (svaret === "Bordet") {
-            return "Rätt";
+        if (TriviaResult.difficulty === "medium") {
+            return get_questions(https://opentdb.com/api.php?amount=10&difficulty=medium);
         }
         else {
             return "Fel";
@@ -29,11 +29,8 @@ function splashscreen() : any {
     }
     else if (inputen === "Lätt") {
         let svaret = prompt(questionslätt()) 
-        if (svaret === "7") {
-            return "Rätt";
-        }
-        else {
-            return "Fel";
+        if (TriviaResult.diffculty === "easy") {
+            return get_questions(https://opentdb.com/api.php?amount=10&difficulty=easy);
         }
     }   
     else {

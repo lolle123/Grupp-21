@@ -36,8 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.get_questions = get_questions;
 /**
- * Hämtar data från API länken till det format vi vill ha
+ * Hämtar data från API länk och omvandlar till
  *
  * Info för att förstå funktionen:
  *  Då API_URL verkar ta tid att ladda ner från nätet behövs "async" innan funciton.
@@ -51,18 +53,22 @@ function get_questions(api_url) {
                 case 0: return [4 /*yield*/, fetch(api_url)];
                 case 1:
                     api_response = _a.sent();
-                    // Här kollar vi vad "kuvertet" (Response) är för något
-                    console.log("Typ på api_response:", typeof api_response);
                     return [4 /*yield*/, api_response.json()];
                 case 2:
                     data = _a.sent();
                     // Här kollar vi vad det uppackade innehållet (data) är
-                    console.log("Typ på data:", typeof data);
                     console.log("Här är den första frågan från nätet:", data.results[0].question);
                     console.log("här är svaren", data.results[0].incorrect_answers);
+                    // En loop som går igenom varje fråga i listan
+                    data.results.forEach(function (item, index) {
+                        console.log("Fr\u00E5ga nummer ".concat(index + 1, ": ").concat(item.question));
+                    });
                     return [2 /*return*/, data]; // Skicka tillbaka datan så andra kan använda den
             }
         });
     });
 }
 get_questions("https://opentdb.com/api.php?amount=10");
+//Lätta frågor
+//Medel frågor
+//Svåra frågor
