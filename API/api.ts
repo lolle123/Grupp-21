@@ -1,4 +1,4 @@
-    // Här försöker Adam skriva integration av typer
+    // Här försöker Adam skriva integration av API
 
     // Hur enskilda frågorna ser ut från API:et
     export interface TriviaResult {
@@ -30,7 +30,7 @@
      *  Då API_URL verkar ta tid att ladda ner från nätet behövs "async" innan funciton. 
      *  Det gör att vi kan ha "await" inne i funktionen, vilket gör att koden pausar där tills den får svar.
      */
-    export async function get_questions(api_url: string) : Promise<TriviaResult | TriviaResponse> {
+    export async function get_questions(api_url: string) : Promise<TriviaResponse> {
         // fetch hämtar URL:en till ett Response-objekt
         const api_response = await fetch(api_url);
         
@@ -38,16 +38,6 @@
         // json översätter texten till ett kod-objekt
         const data: TriviaResponse = await api_response.json();
         // Här kollar vi vad det uppackade innehållet (data) är
-
-        console.log("Här är den första frågan från nätet:", data.results[0].question);
-        console.log("här är svaren", data.results[0].incorrect_answers, );  
-        
-        // En loop som går igenom varje fråga i listan
-        data.results.forEach((item, index) => {
-            console.log(`Fråga nummer ${index + 1}: ${item.question}`);
-        });
         
         return data; // Skicka tillbaka datan så andra kan använda den
     }
-
-    get_questions("https://opentdb.com/api.php?amount=10");

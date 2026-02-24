@@ -36,72 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.game = game;
+exports.collect_questions_from_API = collect_questions_from_API;
+exports.create_question = create_question;
 var api_1 = require("../API/api");
-var create_question_1 = require("../Game_mechanics/create_question");
-// @ts-ignore
-var promptSync = require("prompt-sync");
-var prompt = promptSync();
-function game() {
+function collect_questions_from_API(api_url) {
     return __awaiter(this, void 0, void 0, function () {
-        var inputen;
+        var API_response, all_questions;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    console.log("Welcome to QuizMaster");
-                    inputen = prompt("Välj en svårighets grad: Svår, Medel, Lätt: ");
-                    if (!(inputen === "Svår")) return [3 /*break*/, 2];
-                    return [4 /*yield*/, svår()];
+                case 0: return [4 /*yield*/, (0, api_1.get_questions)(api_url)];
                 case 1:
-                    _a.sent();
-                    return [3 /*break*/, 7];
-                case 2:
-                    if (!(inputen === "Medel")) return [3 /*break*/, 4];
-                    return [4 /*yield*/, medel()];
-                case 3:
-                    _a.sent();
-                    return [3 /*break*/, 7];
-                case 4:
-                    if (!(inputen === "Lätt")) return [3 /*break*/, 6];
-                    return [4 /*yield*/, lätt()];
-                case 5:
-                    _a.sent();
-                    return [3 /*break*/, 7];
-                case 6: return [2 /*return*/, "Fel Kommand"];
-                case 7: return [2 /*return*/];
+                    API_response = _a.sent();
+                    all_questions = API_response.results;
+                    return [2 /*return*/, all_questions];
             }
         });
     });
 }
-function svår() {
-    return __awaiter(this, void 0, void 0, function () {
-        var current, i, svaretprompt;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=hard")];
-                case 1:
-                    current = _a.sent();
-                    for (i = 0; i < 10; i = i + 1) {
-                        (0, create_question_1.create_question)(current[i]);
-                        svaretprompt = prompt("Svar: ");
-                        if (svaretprompt === current[i].correct_answer) {
-                            console.log("Rätt svar!");
-                            //Lägg in ELO
-                        }
-                        else {
-                            console.log("Fel svar brur");
-                        }
-                        i = i + 1;
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
+function create_question(question) {
+    console.log("----------");
+    console.log("Kategori: ".concat(question.category));
+    console.log("Sv\u00E5righetsgrad: ".concat(question.difficulty));
+    console.log("Fr\u00E5ga: ".concat(question.question));
+    console.log("----------");
 }
-function medel() {
-    return (0, api_1.get_questions)("https://opentdb.com/api.php?amount=10&difficulty=medium");
-}
-function lätt() {
-    return (0, api_1.get_questions)("https://opentdb.com/api.php?amount=10&difficulty=easy");
-}
-game();

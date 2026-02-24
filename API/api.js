@@ -1,5 +1,5 @@
 "use strict";
-// Här försöker Adam skriva integration av typer
+// Här försöker Adam skriva integration av API
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -57,18 +57,8 @@ function get_questions(api_url) {
                 case 2:
                     data = _a.sent();
                     // Här kollar vi vad det uppackade innehållet (data) är
-                    console.log("Här är den första frågan från nätet:", data.results[0].question);
-                    console.log("här är svaren", data.results[0].incorrect_answers);
-                    // En loop som går igenom varje fråga i listan
-                    data.results.forEach(function (item, index) {
-                        console.log("Fr\u00E5ga nummer ".concat(index + 1, ": ").concat(item.question));
-                    });
                     return [2 /*return*/, data]; // Skicka tillbaka datan så andra kan använda den
             }
         });
     });
 }
-get_questions("https://opentdb.com/api.php?amount=10");
-//Lätta frågor
-//Medel frågor
-//Svåra frågor
