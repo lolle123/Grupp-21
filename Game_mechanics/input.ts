@@ -35,7 +35,7 @@ export async function game() : Promise<any> {
 }
 
 
-function question_loop(curnt: TriviaResult): void {
+function question_loop(curnt: TriviaResult[]): void {
     for (let i = 0; i < 10; i = i + 1) {
         create_question(curnt[i])
         let svaretprompt = prompt("Svar: ")
@@ -46,22 +46,25 @@ function question_loop(curnt: TriviaResult): void {
         else {
             console.log("Fel svar brur")
             console.log(`Rätt svar var ${curnt[i].correct_answer}`);
-        }
-        i = i + 1;
+        }   
     }
 }
 
 async function svår() {
-    const current = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard");
-    question_loop(current);
+    const all_hard_questions = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard")
+    question_loop(all_hard_questions);
     console.log("Bra jobbat här är din ELO: 1000");
 } 
-function medel() {
-    return get_questions("https://opentdb.com/api.php?amount=10&difficulty=medium");
+async function medel() {
+    const current = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=medium")
+    question_loop(current)
+    console.log("Bra jobbat här är din ELO: 500");
 }
 
-function lätt() {
-    return get_questions("https://opentdb.com/api.php?amount=10&difficulty=easy");
+async function lätt() {
+    const current = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=easy")
+    question_loop(current)
+    console.log("Bra jobbat här är din ELO: 0");
 }
 
 game();
