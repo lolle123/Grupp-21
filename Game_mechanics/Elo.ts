@@ -9,25 +9,26 @@
 
 //lägg in time om vi kan
 
-type Player = {
+export type Player = {
     name: string;
+    Pass: string;
     elo: number;
 };
 
-function create_player(name: string, elo: number): Player {
-    return { name, elo };
+export function create_player(name: string, Pass: string, elo: number): Player {
+    return {name, Pass, elo };
 }
 
-export function elo(difficulty: number, answer: boolean, player: Player): Player {
+export function elo(time: number, difficulty: number, answer: boolean, player: Player): Player {
     if (answer) {
-        player.elo += 10 * 10 * difficulty;
+        player.elo += 10 * (10000 - time) * difficulty;
     } else {
         player.elo -= 50 * (3 - difficulty);
     }
     return player;
 }
 
-const P1 = create_player("lowe", 500);
+const P1 = create_player("lowe", "123", 500);
 
-elo(2, true, P1);   // uppdaterar P1
+elo(200, 2, true, P1);   // uppdaterar P1
 console.log(P1.elo);

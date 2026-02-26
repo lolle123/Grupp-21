@@ -15,6 +15,10 @@ export function create_question(question: TriviaResult) {
     console.log(`Kategori: ${question.category}`);
     console.log(`Svårighetsgrad: ${question.difficulty}`);
     console.log(`Fråga: ${question.question}`);
+    // Kollar vilken type
+    if (question.type === "multiple") {
+
+    }
     console.log(`----------
         
     `);
