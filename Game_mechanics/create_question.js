@@ -54,9 +54,19 @@ function collect_questions_from_API(api_url) {
     });
 }
 function create_question(question) {
+    console.log();
     console.log("----------");
     console.log("Kategori: ".concat(question.category));
     console.log("Sv\u00E5righetsgrad: ".concat(question.difficulty));
     console.log("Fr\u00E5ga: ".concat(question.question));
-    console.log("----------");
+    console.log("Svarsalternativ:");
+    // Vi lägger ihop det rätta svaret med de felaktiga svaren till en enda Array
+    var all_options = [question.correct_answer].concat(question.incorrect_answers);
+    var shuffled_options = all_options.sort(function () { return Math.random() - 0.5; });
+    shuffled_options.forEach(function (option, index) {
+        console.log("".concat(index + 1, ": ").concat(option));
+    });
+    console.log("----------\n        \n    ");
+    // Letar upp var det rätta svaret hamnade och skickar tillbaka det numret (1-4)
+    return shuffled_options.indexOf(question.correct_answer) + 1;
 }

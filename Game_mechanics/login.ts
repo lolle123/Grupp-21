@@ -1,8 +1,8 @@
 import {
-    member, list
+    member, list, is_null, head
 } from '../lib/list'
 import {
-    ph_empty, ph_lookup, hash_id, ph_keys
+    ph_empty, ph_lookup, hash_id, ph_keys,
 } from '../lib/hashtables'
 
 type old_player = {
@@ -12,15 +12,23 @@ type old_player = {
 }; 
 
 
-let player_database = (ph_empty(100, hash_id));
+let player_database = (ph_empty<string, old_player>(100, hash_id));
 
-function usernamesearch() {
-    ph_keys(player_database)
-}
+
 
 function login(username: string, password: string, elo: number) : old_player {
-    let username_try = prompt("Användarnamn: ");
-    if (username_try === )
-    if (password_try === ph_lookup(player_database, username))
+    let username_try = prompt("Användarnamn: ")
+    let password_try = prompt ("Lösenord: ")
+    let spelare = ph_lookup(player_database, username_try);
+    if (spelare !== undefined) {
+        if (password_try === spelare.password) {
+
+        }
+        else {
+            console.log("Fel lösenord");
+        }
+    }
+    else {
+        console.log("Användare finns inte");
     }
 }

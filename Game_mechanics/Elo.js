@@ -11,9 +11,9 @@ exports.elo = elo;
 function create_player(name, Pass, elo) {
     return { name: name, Pass: Pass, elo: elo };
 }
-function elo(difficulty, answer, player) {
+function elo(time, difficulty, answer, player) {
     if (answer) {
-        player.elo += 10 * 10 * difficulty;
+        player.elo += 10 * (10000 - time) * difficulty;
     }
     else {
         player.elo -= 50 * (3 - difficulty);
@@ -21,5 +21,5 @@ function elo(difficulty, answer, player) {
     return player;
 }
 var P1 = create_player("lowe", "123", 500);
-elo(2, true, P1); // uppdaterar P1
+elo(200, 2, true, P1); // uppdaterar P1
 console.log(P1.elo);

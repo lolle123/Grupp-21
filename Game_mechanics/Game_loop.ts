@@ -59,7 +59,9 @@ function question_loop(curnt: TriviaResult[], diff: number): void {
             elo(rounded_time, diff, true, P1);
         }
         else {
-            console.log("Fel svar brur")
+            console.log(`Fel svar brur`
+                
+            )
             console.log(`Rätt svar var ${curnt[i].correct_answer}`);
             elo(0, diff, false, P1);
         }   

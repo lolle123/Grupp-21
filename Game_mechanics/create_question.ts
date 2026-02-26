@@ -15,12 +15,19 @@ export function create_question(question: TriviaResult) {
     console.log(`Kategori: ${question.category}`);
     console.log(`Svårighetsgrad: ${question.difficulty}`);
     console.log(`Fråga: ${question.question}`);
-    // Kollar vilken type
-    if (question.type === "multiple") {
+    console.log("Svarsalternativ:");
 
-    }
+    // Vi lägger ihop det rätta svaret med de felaktiga svaren till en enda Array
+    const all_options = [question.correct_answer].concat(question.incorrect_answers);
+    const shuffled_options = all_options.sort(() => Math.random() - 0.5);
+
+    shuffled_options.forEach((option: string, index: number) => {
+        console.log(`${index + 1}: ${option}`);
+    });
+
     console.log(`----------
-        
     `);
-    console.log();
+    
+    // Letar upp var det rätta svaret hamnade och skickar tillbaka det numret (1-4)
+    return shuffled_options.indexOf(question.correct_answer) + 1;
 }
