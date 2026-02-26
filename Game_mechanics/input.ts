@@ -12,6 +12,11 @@ import {
     collect_questions_from_API, create_question
 } from '../Game_mechanics/create_question'
 
+import {
+    elo
+} from '../Game_mechanics/Elo'
+
+
 // @ts-ignore
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
@@ -35,13 +40,13 @@ export async function game() : Promise<any> {
 }
 
 
-function question_loop(curnt: TriviaResult[]): void {
+function question_loop(curnt: TriviaResult[],diff: number): void {
     for (let i = 0; i < 10; i = i + 1) {
         create_question(curnt[i])
         let svaretprompt = prompt("Svar: ")
         if (svaretprompt === curnt[i].correct_answer) {
             console.log("Rätt svar!");
-            //Lägg in ELO
+            elo(diff, true, 1000);
         }
         else {
             console.log("Fel svar brur")
@@ -52,18 +57,18 @@ function question_loop(curnt: TriviaResult[]): void {
 
 async function svår() {
     const all_hard_questions = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard")
-    question_loop(all_hard_questions);
+    question_loop(all_hard_questions, 3);
     console.log("Bra jobbat här är din ELO: 1000");
 } 
 async function medel() {
     const current = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=medium")
-    question_loop(current)
+    question_loop(current, 2)
     console.log("Bra jobbat här är din ELO: 500");
 }
 
 async function lätt() {
     const current = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=easy")
-    question_loop(current)
+    question_loop(current, 1)
     console.log("Bra jobbat här är din ELO: 0");
 }
 

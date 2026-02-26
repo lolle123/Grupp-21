@@ -6,12 +6,28 @@
 // param - answer- bolean correct or incorrect answer
 // param - current  number- current elo
 
-export function elo(time: number, difficulty: number, answer: boolean, current: number): number | undefined {
-    if (answer) {
-        // rätt svar, (better time more elo, hardder difficulty more elo)
-        return current + ((10 - time)* 10 * difficulty);
-    } else {
-        //fel svar,  (time doesnt matter, easier question = less elo)
-        return current - (50 * (3 - difficulty));
-    }
+
+//lägg in time om vi kan
+
+type Player = {
+    name: string;
+    elo: number;
+};
+
+function create_player(name: string, elo: number): Player {
+    return { name, elo };
 }
+
+export function elo(difficulty: number, answer: boolean, player: Player): Player {
+    if (answer) {
+        player.elo += 10 * 10 * difficulty;
+    } else {
+        player.elo -= 50 * (3 - difficulty);
+    }
+    return player;
+}
+
+const P1 = create_player("lowe", 500);
+
+elo(2, true, P1);   // uppdaterar P1
+console.log(P1.elo);
