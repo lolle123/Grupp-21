@@ -46,7 +46,7 @@ export async function game() : Promise<any> {
 
 const P1 = create_player("Lowe", "123", 500);
 
-function question_loop(curnt: TriviaResult[], diff: number): void {
+export function question_loop(curnt: TriviaResult[], diff: number): void {
     for (let i = 0; i < 10; i = i + 1) {
         create_question(curnt[i])
         const start = performance.now();

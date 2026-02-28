@@ -66,7 +66,7 @@ function create_question(question) {
     shuffled_options.forEach(function (option, index) {
         console.log("".concat(index + 1, ": ").concat(option));
     });
-    console.log("----------\n        \n    ");
+    console.log("----------\n    ");
     // Letar upp var det rätta svaret hamnade och skickar tillbaka det numret (1-4)
     return shuffled_options.indexOf(question.correct_answer) + 1;
 }

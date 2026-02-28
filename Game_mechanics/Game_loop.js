@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.game = game;
+exports.question_loop = question_loop;
 var create_question_1 = require("./create_question");
 var Elo_1 = require("./Elo");
 // @ts-ignore
