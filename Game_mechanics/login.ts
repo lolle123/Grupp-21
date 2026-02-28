@@ -8,6 +8,9 @@ import {
 import {
     question_loop
 } from '../Game_mechanics/Game_loop'
+import {
+    game
+} from './Game_loop'
 
 
 
@@ -21,8 +24,15 @@ type old_player = {
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
+const hash_func = (key: string): number => {
+    let hash = 0
+    for (let i = 0; i < key.length; i++) {
+         hash = hash * 31 + key.charCodeAt(i);
+    }
+    return hash;
+};
 
-let player_database = (ph_empty<string, old_player>(10, hash_id));
+let player_database = (ph_empty<string, old_player>(10, hash_func));
 
 let tries = 0;
 
@@ -35,7 +45,7 @@ export function login() {
             if (password_try === spelare.password && tries < 3) {
                 console.log("Inloggad! Spelet startar")
                 tries = 0;
-                //question_loop();
+                game();
             }
             else {
                 console.log("Fel lösenord eller för många försök")
@@ -62,6 +72,7 @@ export function add_player() {
             elo : 1000
         }
         ph_insert(player_database, username, new_player);
+        login();
     }
     else {
         console.log("Felaktigt användarnamn eller lösenord");
@@ -69,3 +80,5 @@ export function add_player() {
 }
 
 login();
+
+//console.log(ph_lookup(player_database, "antonkung"));

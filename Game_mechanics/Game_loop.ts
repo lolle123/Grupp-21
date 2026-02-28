@@ -84,5 +84,3 @@ async function lätt() {
     question_loop(current, 1)
     console.log("Bra jobbat här är din ELO: 0");
 }
-
-game();

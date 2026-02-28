@@ -139,4 +139,3 @@ function lätt() {
         });
     });
 }
-game();
