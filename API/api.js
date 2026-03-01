@@ -42,8 +42,9 @@ exports.get_questions = get_questions;
  * Hämtar data från API länk och omvandlar till
  *
  * Info för att förstå funktionen:
- *  Då API_URL verkar ta tid att ladda ner från nätet behövs "async" innan funciton.
+ *  Då API_URL verkar ta tid att ladda ner från nätet behövs "async" innan function.
  *  Det gör att vi kan ha "await" inne i funktionen, vilket gör att koden pausar där tills den får svar.
+ *  Promise innebär att vi lovar att vi kommer skicka tillbaka ett paket av typen TriviaResponse.
  */
 function get_questions(api_url) {
     return __awaiter(this, void 0, void 0, function () {
@@ -56,7 +57,6 @@ function get_questions(api_url) {
                     return [4 /*yield*/, api_response.json()];
                 case 2:
                     data = _a.sent();
-                    // Här kollar vi vad det uppackade innehållet (data) är
                     return [2 /*return*/, data]; // Skicka tillbaka datan så andra kan använda den
             }
         });

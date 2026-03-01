@@ -10,12 +10,17 @@ import {
 } from '../API/api';
 import {
     collect_questions_from_API, create_question
-} from '../Game_mechanics/create_question'
+} from './create_question'
 
 import {
-    elo
-} from '../Game_mechanics/Elo'
+    elo, create_player
+} from './Elo'
 
+export type Player = {
+    name: string;
+    Pass: string;
+    elo: number;
+};
 
 // @ts-ignore
 import promptSync = require('prompt-sync');
@@ -39,18 +44,26 @@ export async function game() : Promise<any> {
     }
 }
 
+const P1 = create_player("Lowe", "123", 500);
 
-function question_loop(curnt: TriviaResult[],diff: number): void {
+export function question_loop(curnt: TriviaResult[], diff: number): void {
     for (let i = 0; i < 10; i = i + 1) {
         create_question(curnt[i])
+        const start = performance.now();
         let svaretprompt = prompt("Svar: ")
         if (svaretprompt === curnt[i].correct_answer) {
             console.log("Rätt svar!");
-            elo(diff, true, 1000);
+            const end = performance.now();
+            const timeTaken = end - start;
+            const rounded_time = Math.round(timeTaken / 10) * 10;
+            elo(rounded_time, diff, true, P1);
         }
         else {
-            console.log("Fel svar brur")
+            console.log(`Fel svar brur`
+                
+            )
             console.log(`Rätt svar var ${curnt[i].correct_answer}`);
+            elo(0, diff, false, P1);
         }   
     }
 }
@@ -71,5 +84,3 @@ async function lätt() {
     question_loop(current, 1)
     console.log("Bra jobbat här är din ELO: 0");
 }
-
-game();

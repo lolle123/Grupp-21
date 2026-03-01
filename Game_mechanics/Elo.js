@@ -1,34 +1,25 @@
-
+"use strict";
 // calculates the elo of players depending on time, 
 // correct answer and the difficulty of the question
 // param- time number, time to answer question
 // param - number {1,2,3} difficulty difficulty of ansered question
 // param - answer- bolean correct or incorrect answer
 // param - current  number- current elo
-
-
-//lägg in time om vi kan
-
-export type Player = {
-    name: string;
-    Pass: string;
-    elo: number;
-};
-
-export function create_player(name: string, Pass: string, elo: number): Player {
-    return {name, Pass, elo };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.create_player = create_player;
+exports.elo = elo;
+function create_player(name, Pass, elo) {
+    return { name: name, Pass: Pass, elo: elo };
 }
-
-export function elo(time: number, difficulty: number, answer: boolean, player: Player): Player {
+function elo(time, difficulty, answer, player) {
     if (answer) {
         player.elo += 10 * (10000 - time) * difficulty;
-    } else {
+    }
+    else {
         player.elo -= 50 * (3 - difficulty);
     }
     return player;
 }
-
-const P1 = create_player("lowe", "123", 500);
-
-elo(200, 2, true, P1);   // uppdaterar P1
+var P1 = create_player("lowe", "123", 500);
+elo(200, 2, true, P1); // uppdaterar P1
 console.log(P1.elo);
