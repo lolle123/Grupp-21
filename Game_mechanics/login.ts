@@ -63,7 +63,7 @@ export function login() {
 }
 
 export function add_player() {
-    const username = prompt("Lägg till användarnamn :")
+    const username = prompt("Lägg till användarnamn: ")
     const password = prompt("Lägg till lösenord: ")
     if (username !== null && password !== null) {
         const new_player : old_player = {

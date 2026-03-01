@@ -48,10 +48,13 @@ const P1 = create_player("Lowe", "123", 500);
 
 export function question_loop(curnt: TriviaResult[], diff: number): void {
     for (let i = 0; i < 10; i = i + 1) {
-        create_question(curnt[i])
         const start = performance.now();
-        let svaretprompt = prompt("Svar: ")
-        if (svaretprompt === curnt[i].correct_answer) {
+        const correct_number = create_question(curnt[i]);
+        let svaretprompt = prompt("Ditt svar (Siffra): ")
+
+        const User_choice = parseInt(svaretprompt);
+
+        if (User_choice === correct_number) {
             console.log("Rätt svar!");
             const end = performance.now();
             const timeTaken = end - start;
@@ -62,7 +65,7 @@ export function question_loop(curnt: TriviaResult[], diff: number): void {
             console.log(`Fel svar brur`
                 
             )
-            console.log(`Rätt svar var ${curnt[i].correct_answer}`);
+            console.log(`Rätt alternativ var nummer ${correct_number}`);
             elo(0, diff, false, P1);
         }   
     }

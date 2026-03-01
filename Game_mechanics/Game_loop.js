@@ -77,10 +77,11 @@ function game() {
 var P1 = (0, Elo_1.create_player)("Lowe", "123", 500);
 function question_loop(curnt, diff) {
     for (var i = 0; i < 10; i = i + 1) {
-        (0, create_question_1.create_question)(curnt[i]);
         var start = performance.now();
-        var svaretprompt = prompt("Svar: ");
-        if (svaretprompt === curnt[i].correct_answer) {
+        var correct_number = (0, create_question_1.create_question)(curnt[i]);
+        var svaretprompt = prompt("Ditt svar (1-4): ");
+        var User_choice = parseInt(svaretprompt);
+        if (User_choice === correct_number) {
             console.log("Rätt svar!");
             var end = performance.now();
             var timeTaken = end - start;
@@ -89,7 +90,7 @@ function question_loop(curnt, diff) {
         }
         else {
             console.log("Fel svar brur");
-            console.log("R\u00E4tt svar var ".concat(curnt[i].correct_answer));
+            console.log("R\u00E4tt alternativ var nummber ".concat(correct_number));
             (0, Elo_1.elo)(0, diff, false, P1);
         }
     }
