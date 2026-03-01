@@ -37,7 +37,6 @@
 
         // json översätter texten till ett kod-objekt
         const data: TriviaResponse = await api_response.json();
-        // Här kollar vi vad det uppackade innehållet (data) är
         
         return data; // Skicka tillbaka datan så andra kan använda den
     }
