@@ -18,18 +18,19 @@ var player_database = ((0, hashtables_1.ph_empty)(10, hash_func));
 var tries = 0;
 function login() {
     var username_try = prompt("Användarnamn: ");
-    if (username_try !== null) {
+    if (username_try !== null && tries < 3) {
         var spelare = (0, hashtables_1.ph_lookup)(player_database, username_try);
         if (spelare !== undefined) {
             var password_try = prompt("Lösenord: ");
-            if (password_try === spelare.password && tries < 3) {
+            if (password_try === spelare.password) {
                 console.log("Inloggad! Spelet startar");
                 tries = 0;
                 (0, Game_loop_1.game)();
             }
             else {
-                console.log("Fel lösenord eller för många försök");
+                console.log("Fel lösenord");
                 tries = tries + 1;
+                login();
             }
         }
         else {
@@ -38,12 +39,11 @@ function login() {
         }
     }
     else {
-        w;
-        console.log("Invalid");
+        console.log("Invalid/För många försök");
     }
 }
 function add_player() {
-    var username = prompt("Lägg till användarnamn :");
+    var username = prompt("Lägg till användarnamn: ");
     var password = prompt("Lägg till lösenord: ");
     if (username !== null && password !== null) {
         var new_player = {

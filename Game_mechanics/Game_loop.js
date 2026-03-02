@@ -79,7 +79,7 @@ function question_loop(curnt, diff) {
     for (var i = 0; i < 10; i = i + 1) {
         var start = performance.now();
         var correct_number = (0, create_question_1.create_question)(curnt[i]);
-        var svaretprompt = prompt("Ditt svar (1-4): ");
+        var svaretprompt = prompt("Ditt svar (Siffra): ");
         var User_choice = parseInt(svaretprompt);
         if (User_choice === correct_number) {
             console.log("Rätt svar!");
@@ -90,7 +90,7 @@ function question_loop(curnt, diff) {
         }
         else {
             console.log("Fel svar brur");
-            console.log("R\u00E4tt alternativ var nummber ".concat(correct_number));
+            console.log("R\u00E4tt alternativ var nummer ".concat(correct_number));
             (0, Elo_1.elo)(0, diff, false, P1);
         }
     }
