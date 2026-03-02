@@ -8,27 +8,19 @@
 
 
 //lägg in time om vi kan
+import { old_player } from '../Game_mechanics/Game_loop'; // Importera den gemensamma ritningen
 
-export type Player = {
-    name: string;
-    Pass: string;
-    elo: number;
-};
-
-export function create_player(name: string, Pass: string, elo: number): Player {
-    return {name, Pass, elo };
+export function create_player(username: string, password: string, elo: number): old_player {
+    return {username, password, elo };
 }
 
-export function elo(time: number, difficulty: number, answer: boolean, player: Player): Player {
+export function elo(time: number, difficulty: number, answer: boolean, player: old_player): old_player {
     if (answer) {
-        player.elo += 10 * (10000 - time) * difficulty;
+        player.elo += 10 * (Math.round(time/10000)) * difficulty;
+    } else if (player.elo <= 0) {
+        player.elo = 0
     } else {
-        player.elo -= 50 * (3 - difficulty);
+        player.elo -= 50 * difficulty;
     }
     return player;
 }
-
-const P1 = create_player("lowe", "123", 500);
-
-elo(200, 2, true, P1);   // uppdaterar P1
-console.log(P1.elo);

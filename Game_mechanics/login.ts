@@ -9,27 +9,15 @@ import {
    question_loop
 } from '../Game_mechanics/Game_loop'
 import {
-   game
+   game, old_player
 } from './Game_loop'
-
-
-
-
-
-
-type old_player = {
-   username : string
-   password : string
-   elo : number
-};
-
 
 // @ts-ignore
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
 
-const hash_func = (key: string): number => {
+export const hash_func = (key: string): number => {
    let hash = 0
    for (let i = 0; i < key.length; i++) {
         hash = hash * 31 + key.charCodeAt(i);
@@ -38,13 +26,12 @@ const hash_func = (key: string): number => {
 };
 
 
-let player_database = (ph_empty<string, old_player>(10, hash_func));
-
+export let player_database = (ph_empty<string, old_player>(10, hash_func));
 
 let tries = 0;
 
 
-export function login() {
+export function login(): old_player | null {
    let username_try = prompt("Användarnamn: ")
    if (username_try !== null && tries < 3) {
        let spelare = ph_lookup(player_database, username_try);
@@ -53,28 +40,26 @@ export function login() {
            if (password_try === spelare.password) {
                console.log("Inloggad! Spelet startar")
                tries = 0;
-               game();
+               return spelare;
            }
            else {
                console.log("Fel lösenord")
                tries = tries + 1;
-               login();
+               return login();
            }
           
        }
        else {
            console.log("Användare finns inte, skapa konto!");
-           add_player();
+           return add_player();
        }
    }
    else {
        console.log("Invalid/För många försök");
-}}  
+} return null;
+}  
 
-
-
-
-export function add_player() {
+export function add_player(): old_player | null {
    const username = prompt("Lägg till användarnamn: ")
    const password = prompt("Lägg till lösenord: ")
    if (username !== null && password !== null) {
@@ -84,15 +69,12 @@ export function add_player() {
            elo : 1000
        }
        ph_insert(player_database, username, new_player);
-       login();
+       return new_player;
    }
    else {
        console.log("Felaktigt användarnamn eller lösenord");
+       return null;
    }
 }
-
-
-login();
-
 
 //console.log(ph_lookup(player_database, "antonkung"));

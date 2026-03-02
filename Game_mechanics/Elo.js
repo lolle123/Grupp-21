@@ -20,6 +20,3 @@ function elo(time, difficulty, answer, player) {
     }
     return player;
 }
-var P1 = create_player("lowe", "123", 500);
-elo(200, 2, true, P1); // uppdaterar P1
-console.log(P1.elo);
