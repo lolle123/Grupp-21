@@ -1,32 +1,19 @@
-//Här skriver Henrik inputen
 import {
-    pair
-} from '../lib/list'
-import {
-    questionssvår, questionsmedel, questionslätt
-} from '../questions'
-import {
-    get_questions, TriviaResponse, TriviaResult
+    TriviaResult
 } from '../API/api';
 import {
     collect_questions_from_API, create_question
 } from './create_question'
 
 import {
-    elo, create_player
+    elo
 } from './Elo'
 
-export type old_player = {
-    username: string;
-    password: string;
-    elo: number;
-};
+import {
+    old_player
+} from '../Types/types'
 
-export type Player = {
-    name: string;
-    Pass: string;
-    elo: number;
-};
+
 
 // @ts-ignore
 import promptSync = require('prompt-sync');

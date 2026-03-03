@@ -1,5 +1,3 @@
-    // Här försöker Adam skriva integration av API
-
     // Interfacet för hur enskilda frågorna ser ut från API:et.
     // Kopierat samma struktur så att parsern JSON kan hitta rätt.
     export interface TriviaResult {

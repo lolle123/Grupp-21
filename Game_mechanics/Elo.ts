@@ -5,14 +5,7 @@
 // param - number {1,2,3} difficulty difficulty of ansered question
 // param - answer- bolean correct or incorrect answer
 // param - current  number- current elo
-
-
-//lägg in time om vi kan
-import { old_player } from '../Game_mechanics/Game_loop'; // Importera den gemensamma ritningen
-
-export function create_player(username: string, password: string, elo: number): old_player {
-    return {username, password, elo };
-}
+import { old_player } from '../Types/types'; 
 
 export function elo(time: number, difficulty: number, answer: boolean, player: old_player): old_player {
     if (answer) {
