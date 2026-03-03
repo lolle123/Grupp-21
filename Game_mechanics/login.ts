@@ -30,7 +30,8 @@ export function login(): old_player | null {
        if (spelare !== undefined) {
            let password_try = prompt("Lösenord: ")
            if (password_try === spelare.password) {
-               console.log("Inloggad! Spelet startar")
+               console.log(`Inloggad! Spelet startar
+                `)
                tries = 0;
                return spelare;
            }

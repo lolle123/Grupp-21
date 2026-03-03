@@ -7,13 +7,14 @@
 // param - current  number- current elo
 import { old_player } from '../Types/types'; 
 
+//time
 export function elo(time: number, difficulty: number, answer: boolean, player: old_player): old_player {
     if (answer) {
-        player.elo += 10 * (Math.round(time/10000)) * difficulty;
+        player.elo += 25 * difficulty;
     } else if (player.elo <= 0) {
         player.elo = 0
     } else {
-        player.elo -= 50 * difficulty;
+        player.elo -= 25 * difficulty;
     }
     return player;
 }

@@ -1,5 +1,7 @@
-    // Interfacet för hur enskilda frågorna ser ut från API:et.
-    // Kopierat samma struktur så att parsern JSON kan hitta rätt.
+    /**
+     * Interfacet representerar hur varje enskild fråga ser ut från API:et.
+     * Kopierat samma struktur så att parsern JSON kan hitta rätt.
+    **/ 
     export interface TriviaResult {
         type: string;
         difficulty: string;
@@ -37,6 +39,14 @@
         // Eftersom vår interface struktur är uppbyggd på samma sätt som API texten kommer det läggas in korrekt. 
         // Att vi sätter typen som TriviaResponse gör att json fattar att översättningnen kommer matcha vår typ.
         const data: TriviaResponse = await api_response.json();
+
+        // Kontrollera om statuskoden är 0 (Success) enligt dokumentationen
+        if (data.response_code !== 0) {
+            console.log("Ett fel uppstod vid hämtning av frågor. Felkod: " + data.response_code);
+            // Säkerhetsåtgärd: Se till att results är en tom array vid fel 
+            data.results = [];
+        } else {
+        }
         
         return data; // Skicka tillbaka datan så andra kan använda den
     }
