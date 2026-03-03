@@ -9,8 +9,6 @@
         incorrect_answers: Array<string>;
     }
 
-    
-
     /**
      * Hela svaret från API:et
      * response_code: Detta är en statuskod.

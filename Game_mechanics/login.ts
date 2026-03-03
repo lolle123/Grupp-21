@@ -9,6 +9,7 @@ import {
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
+// Gives strings a number so they can be used as keys in hash function.
 export const hash_func = (key: string): number => {
    let hash = 0
    for (let i = 0; i < key.length; i++) {
@@ -21,6 +22,7 @@ export let player_database = (ph_empty<string, old_player>(10, hash_func));
 
 let tries = 0;
 
+// login function that logs in if the player is in the system, this also connecst them to their Elo.
 export function login(): old_player | null {
    let username_try = prompt("Användarnamn: ")
    if (username_try !== null && tries < 3) {
@@ -49,6 +51,7 @@ export function login(): old_player | null {
 } return null;
 }  
 
+// Adds new player to the datasystem
 export function add_player(): old_player | null {
    const username = prompt("Lägg till användarnamn: ")
    const password = prompt("Lägg till lösenord: ")

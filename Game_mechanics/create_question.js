@@ -35,10 +35,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collect_questions_from_API = collect_questions_from_API;
 exports.create_question = create_question;
 var api_1 = require("../API/api");
+function decodeHtml(html) {
+    return html
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">");
+}
 function collect_questions_from_API(api_url) {
     return __awaiter(this, void 0, void 0, function () {
         var API_response, all_questions;
@@ -56,17 +73,18 @@ function collect_questions_from_API(api_url) {
 function create_question(question) {
     console.log();
     console.log("----------");
-    console.log("Kategori: ".concat(question.category));
-    console.log("Sv\u00E5righetsgrad: ".concat(question.difficulty));
-    console.log("Fr\u00E5ga: ".concat(question.question));
+    console.log("Kategori: ".concat(decodeHtml(question.category)));
+    console.log("Sv\u00E5righetsgrad: ".concat(decodeHtml(question.difficulty)));
+    console.log("Fr\u00E5ga: ".concat(decodeHtml(question.question)));
+    console.log();
     console.log("Svarsalternativ:");
-    // Vi lägger ihop det rätta svaret med de felaktiga svaren till en enda Array
-    var all_options = [question.correct_answer].concat(question.incorrect_answers);
+    var all_options = __spreadArray([
+        decodeHtml(question.correct_answer)
+    ], question.incorrect_answers.map(decodeHtml), true);
     var shuffled_options = all_options.sort(function () { return Math.random() - 0.5; });
     shuffled_options.forEach(function (option, index) {
         console.log("".concat(index + 1, ": ").concat(option));
     });
-    console.log("----------\n    ");
-    // Letar upp var det rätta svaret hamnade och skickar tillbaka det numret (1-4)
-    return shuffled_options.indexOf(question.correct_answer) + 1;
+    console.log("----------");
+    return shuffled_options.indexOf(decodeHtml(question.correct_answer)) + 1;
 }

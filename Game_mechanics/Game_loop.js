@@ -43,28 +43,28 @@ var Elo_1 = require("./Elo");
 // @ts-ignore
 var promptSync = require("prompt-sync");
 var prompt = promptSync();
-function game() {
+function game(activePlayer) {
     return __awaiter(this, void 0, void 0, function () {
         var inputen;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     console.log("Welcome to QuizMaster");
-                    inputen = prompt("Välj en svårighets grad: Svår, Medel, Lätt: ");
-                    if (!(inputen === "Svår")) return [3 /*break*/, 2];
-                    return [4 /*yield*/, svår()];
+                    inputen = prompt("Välj en svårighets grad (Easy, Medium, Hard): ");
+                    if (!(inputen === "Hard")) return [3 /*break*/, 2];
+                    return [4 /*yield*/, svår(activePlayer)];
                 case 1:
                     _a.sent();
                     return [3 /*break*/, 7];
                 case 2:
-                    if (!(inputen === "Medel")) return [3 /*break*/, 4];
-                    return [4 /*yield*/, medel()];
+                    if (!(inputen === "Medium")) return [3 /*break*/, 4];
+                    return [4 /*yield*/, medel(activePlayer)];
                 case 3:
                     _a.sent();
                     return [3 /*break*/, 7];
                 case 4:
-                    if (!(inputen === "Lätt")) return [3 /*break*/, 6];
-                    return [4 /*yield*/, lätt()];
+                    if (!(inputen === "Easy")) return [3 /*break*/, 6];
+                    return [4 /*yield*/, lätt(activePlayer)];
                 case 5:
                     _a.sent();
                     return [3 /*break*/, 7];
@@ -74,8 +74,8 @@ function game() {
         });
     });
 }
-var P1 = (0, Elo_1.create_player)("Lowe", "123", 500);
-function question_loop(curnt, diff) {
+var rätt_svar = 0;
+function question_loop(curnt, diff, player) {
     for (var i = 0; i < 10; i = i + 1) {
         var start = performance.now();
         var correct_number = (0, create_question_1.create_question)(curnt[i]);
@@ -86,16 +86,17 @@ function question_loop(curnt, diff) {
             var end = performance.now();
             var timeTaken = end - start;
             var rounded_time = Math.round(timeTaken / 10) * 10;
-            (0, Elo_1.elo)(rounded_time, diff, true, P1);
+            rätt_svar = rätt_svar + 1;
+            (0, Elo_1.elo)(rounded_time, diff, true, player);
         }
         else {
-            console.log("Fel svar brur");
+            console.log("Fel svar brur\n                \n                ");
             console.log("R\u00E4tt alternativ var nummer ".concat(correct_number));
-            (0, Elo_1.elo)(0, diff, false, P1);
+            (0, Elo_1.elo)(0, diff, false, player);
         }
     }
 }
-function svår() {
+function svår(player) {
     return __awaiter(this, void 0, void 0, function () {
         var all_hard_questions;
         return __generator(this, function (_a) {
@@ -103,14 +104,16 @@ function svår() {
                 case 0: return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=hard")];
                 case 1:
                     all_hard_questions = _a.sent();
-                    question_loop(all_hard_questions, 3);
-                    console.log("Bra jobbat här är din ELO: 1000");
+                    question_loop(all_hard_questions, 3, player);
+                    console.log("Bra jobbat du fick ".concat(rätt_svar, "/10"));
+                    console.log("Här är din ELO: ");
+                    console.log(player.elo);
                     return [2 /*return*/];
             }
         });
     });
 }
-function medel() {
+function medel(player) {
     return __awaiter(this, void 0, void 0, function () {
         var current;
         return __generator(this, function (_a) {
@@ -118,14 +121,15 @@ function medel() {
                 case 0: return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=medium")];
                 case 1:
                     current = _a.sent();
-                    question_loop(current, 2);
-                    console.log("Bra jobbat här är din ELO: 500");
+                    question_loop(current, 2, player);
+                    console.log("Bra jobbat här är din ELO: ");
+                    console.log(player.elo);
                     return [2 /*return*/];
             }
         });
     });
 }
-function lätt() {
+function lätt(player) {
     return __awaiter(this, void 0, void 0, function () {
         var current;
         return __generator(this, function (_a) {
@@ -133,8 +137,9 @@ function lätt() {
                 case 0: return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=easy")];
                 case 1:
                     current = _a.sent();
-                    question_loop(current, 1);
-                    console.log("Bra jobbat här är din ELO: 0");
+                    question_loop(current, 1, player);
+                    console.log("Bra jobbat här är din ELO: ");
+                    console.log(player.elo);
                     return [2 /*return*/];
             }
         });

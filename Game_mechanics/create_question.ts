@@ -1,5 +1,6 @@
 import { get_questions, TriviaResult } from '../API/api';
 
+// Översätter strängarna från HTML till rätt tecken
 function decodeHtml(html: string): string {
     return html
         .replace(/&quot;/g, '"')
@@ -9,8 +10,7 @@ function decodeHtml(html: string): string {
         .replace(/&gt;/g, ">");
 }
 
-
-
+// Samlar alla frågor från API:n i en constant i form av interfacen TriviaResult
 export async function collect_questions_from_API(api_url: string) {
     const API_response = await get_questions(api_url);
 
@@ -19,7 +19,7 @@ export async function collect_questions_from_API(api_url: string) {
     return all_questions;
 }
 
-
+// Skapar layouten för frågorna och returnar vilken index det rätta svaret har
 export function create_question(question: TriviaResult) {
     console.log();
     console.log("----------");
