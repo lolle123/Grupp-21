@@ -50,7 +50,7 @@ export async function game(activePlayer: old_player) : Promise<any> {
     }
 }
 
-
+var rätt_svar = 0;
 export function question_loop(curnt: TriviaResult[], diff: number, player: old_player): void {
     for (let i = 0; i < 10; i = i + 1) {
         const start = performance.now();
@@ -64,6 +64,7 @@ export function question_loop(curnt: TriviaResult[], diff: number, player: old_p
             const end = performance.now();
             const timeTaken = end - start;
             const rounded_time = Math.round(timeTaken / 10) * 10;
+            rätt_svar = rätt_svar + 1;
             elo(rounded_time, diff, true, player);
         }
         else {
@@ -81,7 +82,8 @@ export function question_loop(curnt: TriviaResult[], diff: number, player: old_p
 async function svår(player: old_player) {
     const all_hard_questions = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard")
     question_loop(all_hard_questions, 3, player);
-    console.log("Bra jobbat här är din ELO: ");
+    console.log('Bra jobbat du fick ${rätt_svar}/10');
+    console.log("Här är din ELO: ");
     console.log(player.elo);
 } 
 async function medel(player: old_player) {
