@@ -1,5 +1,4 @@
 import { get_questions, TriviaResult } from '../API/api';
-import { all } from '../lib/list';
 
 function decodeHtml(html: string): string {
     return html

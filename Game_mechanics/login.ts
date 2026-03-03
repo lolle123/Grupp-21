@@ -1,21 +1,13 @@
 import {
-   member, list, is_null, head
-} from '../lib/list'
-import {
-   ph_empty, ph_lookup, hash_id, ph_keys,
-   ph_insert,
+   ph_empty, ph_lookup, ph_insert,
 } from '../lib/hashtables'
 import {
-   question_loop
-} from '../Game_mechanics/Game_loop'
-import {
-   game, old_player
-} from './Game_loop'
+   old_player
+} from '../Types/types'
 
 // @ts-ignore
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
-
 
 export const hash_func = (key: string): number => {
    let hash = 0
@@ -25,11 +17,9 @@ export const hash_func = (key: string): number => {
    return hash;
 };
 
-
 export let player_database = (ph_empty<string, old_player>(10, hash_func));
 
 let tries = 0;
-
 
 export function login(): old_player | null {
    let username_try = prompt("Användarnamn: ")
