@@ -9,7 +9,13 @@ import {
 import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
-// Gives strings a number so they can be used as keys in hash function.
+/**
+ * Gives strings a number so they can be used as keys in hash function.
+ * Genererar ett hash-värde för en given strängnyckel.
+ * @param {string} key - Strängen som ska hashas.
+ * @returns {number} Det resulterande heltalet (hash-värdet).
+ * @complexity O(n) där n är längden på strängen key.
+ **/
 export const hash_func = (key: string): number => {
    let hash = 0
    for (let i = 0; i < key.length; i++) {
@@ -18,12 +24,25 @@ export const hash_func = (key: string): number => {
    return hash;
 };
 
+/**
+ * En hashtabell som fungerar som databas för alla registrerade spelare.
+ */
 export let player_database = (ph_empty<string, old_player>(10, hash_func));
 
+/**
+ * Räknare för antal misslyckade inloggningsförsök.
+ */
 let tries = 0;
 
-// login function that logs in if the player is in the system, this also connecst them to their Elo.
+/**
+ * Hanterar inloggningsprocessen genom att kontrollera användarnamn och lösenord.
+ * @example login();
+ * @returns {old_player | null} Returnerar spelaren vid lyckad inloggning, annars null.
+ * @precondition tries måste vara mindre än 3 för att tillåta nya försök.
+ * @complexity O(1) i genomsnitt för uppslagning i hashtabellen.
+ **/
 export function login(): old_player | null {
+    // Variant: 3 - tries
    let username_try = prompt("Användarnamn: ")
    if (username_try !== null && tries < 3) {
        let spelare = ph_lookup(player_database, username_try);
@@ -52,7 +71,11 @@ export function login(): old_player | null {
 } return null;
 }  
 
-// Adds new player to the datasystem
+/**
+ * Registrerar en ny spelare i systemet med en start-ELO på 1000.
+ * @returns {old_player | null} Den nyskapade spelaren eller null vid fel.
+ * @complexity O(1) för insättning i hashtabellen.
+ */
 export function add_player(): old_player | null {
    const username = prompt("Lägg till användarnamn: ")
    const password = prompt("Lägg till lösenord: ")

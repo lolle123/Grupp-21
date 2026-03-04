@@ -1,14 +1,22 @@
-
-// calculates the elo of players depending on time, 
-// correct answer and the difficulty of the question
-// param- time number, time to answer question
-// param - number {1,2,3} difficulty difficulty of ansered question
-// param - answer- bolean correct or incorrect answer
-// param - current  number- current elo
 import { old_player } from '../Types/types'; 
 
-//time
-export function elo(time: number, difficulty: number, answer: boolean, player: old_player): old_player {
+/**
+ * Beräknar och uppdaterar spelarens ELO-poäng baserat på svar och svårighetsgrad.
+ * @example elo(5000, 2, true, current_player);
+ * @param {number} time - Tiden det tog att svara i millisekunder.
+ * @param {number} difficulty - Frågans svårighetsgrad (1, 2 eller 3).
+ * @param {boolean} answer - Sant om svaret var rätt, annars falskt.
+ * @param {old_player} player - Spelarobjektet som ska uppdateras.
+ * @precondition difficulty måste vara ett positivt heltal.
+ * @complexity O(1) då beräkningen sker i konstant tid.
+ * @returns {old_player} Det uppdaterade spelarobjektet.
+ **/
+export function elo(
+    time: number, 
+    difficulty: number, 
+    answer: boolean, 
+    player: old_player
+): old_player {
     if (answer) {
         player.elo += 25 * difficulty;
     } else if (player.elo <= 0) {
