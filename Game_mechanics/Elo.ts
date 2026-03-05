@@ -17,12 +17,16 @@ export function elo(
     answer: boolean, 
     player: old_player
 ): old_player {
+    // Baspoäng per svårighetsgrad
+    const base = 20 * difficulty;
+
+    const timeBonus = Math.max(0, 20 - Math.floor(time / 500));
+
     if (answer) {
-        player.elo += 25 * difficulty;
-    } else if (player.elo <= 0) {
-        player.elo = 0
+        player.elo += base + timeBonus;
     } else {
-        player.elo -= 25 * difficulty;
+        player.elo = Math.max(0, player.elo - base);
     }
+
     return player;
 }
