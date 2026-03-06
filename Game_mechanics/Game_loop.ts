@@ -8,7 +8,7 @@ import {
     elo
 } from './Elo'
 import {
-    old_player
+    Player
 } from '../Types/types'
 import {
     startApp
@@ -20,11 +20,11 @@ const prompt = promptSync();
 
 /**
  * Startar huvudmenyn för spelet där användaren väljer svårighetsgrad.
- * @param {old_player} activePlayer - Den inloggade spelaren.
+ * @param {Player} activePlayer - Den inloggade spelaren.
  * @complexity O(1) för själva valet, men anropar asynkrona funktioner.
  * @returns {Promise<any>} Ett löfte som returnerar ett felmeddelande vid ogiltigt val.
  **/
-export async function game(activePlayer: old_player) : Promise<any> {
+export async function game(activePlayer: Player) : Promise<any> {
     console.log(`
             ---------------------
             Welcome to QuizWarrior`)
@@ -53,12 +53,12 @@ var rätt_svar = 0
  * En loop som hanterar en spelrunda med 10 frågor.
  * @param {Array<TriviaResult>} curnt - En lista med frågor från API:et.
  * @param {number} diff - Svårighetsgraden på frågorna (1-3).
- * @param {old_player} player - Den aktuella spelaren vars ELO ska uppdateras.
+ * @param {Player} player - Den aktuella spelaren vars ELO ska uppdateras.
  * @precondition curnt måste innehålla 10 element.
  * @complexity O(n) där n är antalet frågor (här fixerat till 10).
  * @returns {void}
  **/
-export function question_loop(curnt: Array<TriviaResult>, diff: number, player: old_player): void {
+export function question_loop(curnt: Array<TriviaResult>, diff: number, player: Player): void {
    
     rätt_svar = 0;
 
@@ -94,12 +94,12 @@ export function question_loop(curnt: Array<TriviaResult>, diff: number, player: 
  * @example compquestion_loop(questions, 2, player);
  * @param {Array<TriviaResult>} curnt - Listan med tillgängliga frågor.
  * @param {number} diff - Svårighetsgraden för frågan.
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @precondition curnt får inte vara en tom lista.
  * @complexity O(1) för en enskild fråga.
  * @returns {void}
  **/
-export function compquestion_loop(curnt: TriviaResult[], diff: number, player: old_player): void {
+export function compquestion_loop(curnt: TriviaResult[], diff: number, player: Player): void {
 
     // Ta första frågan
     const question = curnt.shift();
@@ -127,11 +127,11 @@ export function compquestion_loop(curnt: TriviaResult[], diff: number, player: o
 
 /**
  * Visar slutresultatet och nuvarande ELO för spelaren.
- * @param {old_player} Player - Spelaren vars resultat visas.
+ * @param {Player} Player - Spelaren vars resultat visas.
  * @complexity O(1).
  * @returns {Promise<void>} Ett löfte som avslutas när skärmen visats.
  **/
-async function end_screen(Player: old_player): Promise<void> {
+async function end_screen(Player: Player): Promise<void> {
     console.log("----------");
     console.log(`Bra jobbat du fick \x1b[33m${rätt_svar}/10\x1b[0m rätt`);
     console.log(`Här är din ELO: ${Player.elo}`);
@@ -141,11 +141,11 @@ async function end_screen(Player: old_player): Promise<void> {
 
 /**
  * Hanterar spelarens val att antingen starta om spelet eller logga ut.
- * @param {old_player} Player - Den aktiva spelaren.
+ * @param {Player} Player - Den aktiva spelaren.
  * @complexity O(1).
  * @returns {Promise<void>} Ett löfte som hanterar menyvalet.
  **/
-export async function end_screen_menu(Player: old_player): Promise<void> {
+export async function end_screen_menu(Player: Player): Promise<void> {
     console.log(`
         Meny: 
         1) Play again
@@ -173,12 +173,12 @@ export async function end_screen_menu(Player: old_player): Promise<void> {
  * annars omdirigeras spelaren till huvudmenyn.
  * @param {Array<TriviaResult>} questions - Listan med frågor från API:et.
  * @param {number} diff - Svårighetsgraden (1, 2 eller 3).
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @precondition questions måste vara en lista av TriviaResult.
  * @complexity O(n) där n är antalet frågor som loopas i question_loop.
  * @returns {Promise<void>} Ett löfte som avslutas när rundan eller omdirigeringen är klar.
  **/
-async function start_quiz_round(questions: Array<TriviaResult>, diff: number, player: old_player): Promise<void> {
+async function start_quiz_round(questions: Array<TriviaResult>, diff: number, player: Player): Promise<void> {
     if (questions.length === 10) {
         question_loop(questions, diff, player);
         await end_screen(player);
@@ -190,11 +190,11 @@ async function start_quiz_round(questions: Array<TriviaResult>, diff: number, pl
 
 /**
  * Startar en runda med svårighetsgrad: Hard.
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @complexity O(n) där n är antalet frågor.
  * @returns {Promise<void>}
  **/
-async function svår(player: old_player): Promise<void> {
+async function svår(player: Player): Promise<void> {
     const url = "https://opentdb.com/api.php?amount=10&difficulty=hard";
     const questions = await collect_questions_from_API(url);
     await start_quiz_round(questions, 3, player);
@@ -202,11 +202,11 @@ async function svår(player: old_player): Promise<void> {
 
 /**
  * Startar en runda med svårighetsgrad: Medium.
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @complexity O(n) där n är antalet frågor.
  * @returns {Promise<void>}
  **/
-async function medel(player: old_player) {
+async function medel(player: Player) {
     const url = "https://opentdb.com/api.php?amount=10&difficulty=medium";
     const questions  = await collect_questions_from_API(url);
     await start_quiz_round(questions, 2, player);
@@ -214,11 +214,11 @@ async function medel(player: old_player) {
 
 /**
  * Startar en spelrunda med svårighetsgrad: Easy.
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @complexity O(n) där n är antalet frågor.
  * @returns {Promise<void>}
  **/
-async function lätt(player: old_player) {
+async function lätt(player: Player) {
     const url = "https://opentdb.com/api.php?amount=10&difficulty=easy";
     const questions  = await collect_questions_from_API(url);
     await start_quiz_round(questions, 1, player);
@@ -236,12 +236,12 @@ function sleep(ms: number) {
 /**
  * Hanterar game modet (Comp) där svårighetsgraden ändras baserat på spelarens nuvarande ELO.
  * @example await comp(activePlayer);
- * @param {old_player} player - Den aktiva spelaren.
+ * @param {Player} player - Den aktiva spelaren.
  * @precondition Spelaren måste vara inloggad och ha ett giltigt ELO-värde.
  * @complexity O(n) där n är antalet frågor. Inkluderar nätverksanrop med väntetid.
  * @returns {Promise<void>}
  **/
-async function comp(player: old_player) {
+async function comp(player: Player) {
     const Lätt = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=easy")
     console.log("\x1b[31mDeleting all files from Document\x1b[0m");
         await sleep(6000);

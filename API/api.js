@@ -56,6 +56,14 @@ function get_questions(api_url) {
                     return [4 /*yield*/, api_response.json()];
                 case 2:
                     data = _a.sent();
+                    // Kontrollera om statuskoden är 0 (Success) enligt dokumentationen
+                    if (data.response_code !== 0) {
+                        console.log("Ett fel uppstod vid hämtning av frågor. Felkod: " + data.response_code);
+                        // Säkerhetsåtgärd: Se till att results är en tom array vid fel 
+                        data.results = [];
+                    }
+                    else {
+                    }
                     return [2 /*return*/, data]; // Skicka tillbaka datan så andra kan använda den
             }
         });

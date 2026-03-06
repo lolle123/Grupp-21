@@ -1,4 +1,4 @@
-import { old_player } from '../Types/types'; 
+import { Player } from '../Types/types'; 
 
 /**
  * Beräknar och uppdaterar spelarens ELO-poäng baserat på svar och svårighetsgrad.
@@ -6,15 +6,16 @@ import { old_player } from '../Types/types';
  * @param {number} time - Tiden det tog att svara i millisekunder.
  * @param {number} difficulty - Frågans svårighetsgrad (1, 2 eller 3).
  * @param {boolean} answer - Sant om svaret var rätt, annars falskt.
- * @param {old_player} player - Spelarobjektet som ska uppdateras.
+ * @param {Player} player - Spelarobjektet som ska uppdateras.
  * @precondition difficulty måste vara ett positivt heltal.
  * @complexity O(1) då beräkningen sker i konstant tid.
- * @returns {old_player} Det uppdaterade spelarobjektet.
+ * @returns {Player} Det uppdaterade spelarobjektet.
  **/
 export function elo(
     time: number, 
     difficulty: number, 
     answer: boolean, 
+<<<<<<< Updated upstream
     player: old_player
 ): old_player {
     // Baspoäng per svårighetsgrad
@@ -22,6 +23,10 @@ export function elo(
 
     const timeBonus = Math.max(0, 20 - Math.floor(time / 500));
 
+=======
+    player: Player
+): Player {
+>>>>>>> Stashed changes
     if (answer) {
         player.elo += base + timeBonus;
     } else {

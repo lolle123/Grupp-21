@@ -2,7 +2,7 @@ import {
    ph_empty, ph_lookup, ph_insert,
 } from '../lib/hashtables'
 import {
-   old_player
+   Player
 } from '../Types/types'
 
 // @ts-ignore
@@ -27,7 +27,7 @@ export const hash_func = (key: string): number => {
 /**
  * En hashtabell som fungerar som databas för alla registrerade spelare.
  */
-export let player_database = (ph_empty<string, old_player>(10, hash_func));
+export let player_database = (ph_empty<string, Player>(10, hash_func));
 
 /**
  * Räknare för antal misslyckade inloggningsförsök.
@@ -37,11 +37,11 @@ let tries = 0;
 /**
  * Hanterar inloggningsprocessen genom att kontrollera användarnamn och lösenord.
  * @example login();
- * @returns {old_player | null} Returnerar spelaren vid lyckad inloggning, annars null.
+ * @returns {Player | null} Returnerar spelaren vid lyckad inloggning, annars null.
  * @precondition tries måste vara mindre än 3 för att tillåta nya försök.
  * @complexity O(1) i genomsnitt för uppslagning i hashtabellen.
  **/
-export function login(): old_player | null {
+export function login(): Player | null {
     // Variant: 3 - tries
    let username_try = prompt("Användarnamn: ")
    if (username_try !== null && tries < 3) {
@@ -73,14 +73,14 @@ export function login(): old_player | null {
 
 /**
  * Registrerar en ny spelare i systemet med en start-ELO på 1000.
- * @returns {old_player | null} Den nyskapade spelaren eller null vid fel.
+ * @returns {Player | null} Den nyskapade spelaren eller null vid fel.
  * @complexity O(1) för insättning i hashtabellen.
  */
-export function add_player(): old_player | null {
+export function add_player(): Player | null {
    const username = prompt("Lägg till användarnamn: ")
    const password = prompt("Lägg till lösenord: ")
    if (username !== null && password !== null) {
-       const new_player : old_player = {
+       const new_player : Player = {
            username : username,
            password : password,
            elo : 1000

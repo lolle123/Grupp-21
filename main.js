@@ -35,75 +35,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.collect_questions_from_API = collect_questions_from_API;
-exports.Create_question = Create_question;
-var api_1 = require("../API/api");
+exports.startApp = startApp;
+var login_1 = require("./Game_mechanics/login");
+var Game_loop_1 = require("./Game_mechanics/Game_loop");
 /**
- * Översätter strängarna från HTML till en sträng med vanliga tecken.
- * @param {string} html - Strängen som innehåller HTML-entiteter.
- * @returns {string} En ren sträng med korrekta tecken.
- * @complexity O(n) där n är antalet entiteter som ersätts.
- **/
-function decodeHtml(html) {
-    return html
-        .replace(/&quot;/g, '"')
-        .replace(/&#039;/g, "'")
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">");
-}
-/**
- * Hämtar frågor från API:et och returnerar dem som en lista.
- * @param {string} api_url - URL-strängen till API-tjänsten.
- * @returns {Promise<Array<TriviaResult>>} Ett löfte som innehåller en
- * lista med frågor.
- * @complexity O(n) där n är antalet frågor i svaret.
- **/
-function collect_questions_from_API(api_url) {
+ * Huvudfunktionen som startar applikationen och hanterar inloggningsloopen.
+ * @complexity O(n) där n är antalet gånger användaren väljer att logga in.
+ * @returns {Promise<void>} Ett löfte som hanterar applikationens livscykel.
+ */
+function startApp() {
     return __awaiter(this, void 0, void 0, function () {
-        var API_response, all_questions;
+        var loggedInPlayer;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, api_1.get_questions)(api_url)];
+                case 0:
+                    if (!true) return [3 /*break*/, 4];
+                    loggedInPlayer = (0, login_1.login)();
+                    if (!(loggedInPlayer !== null)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, (0, Game_loop_1.game)(loggedInPlayer)];
                 case 1:
-                    API_response = _a.sent();
-                    all_questions = API_response.results;
-                    return [2 /*return*/, all_questions];
+                    _a.sent(); // 2. Starta spelet med den spelaren
+                    return [3 /*break*/, 3];
+                case 2:
+                    console.log("Kunde inte logga in.");
+                    return [3 /*break*/, 4];
+                case 3: return [3 /*break*/, 0];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-/**
- * Skapar en fråga i terminalen och returnerar det korrekta svarsnumret.
- * @param {TriviaResult} question - Frågeobjektet som ska visas.
- * @returns {number} Indexet för det korrekta svaret.
- * @complexity O(k * log(k)) där k är antalet svarsalternativ (sortering).
- **/
-function Create_question(question) {
-    console.log();
-    console.log("----------");
-    console.log("Kategori: ".concat(decodeHtml(question.category)));
-    console.log("Sv\u00E5righetsgrad: ".concat(decodeHtml(question.difficulty)));
-    console.log("Fr\u00E5ga: ".concat(decodeHtml(question.question)));
-    console.log();
-    console.log("Svarsalternativ:");
-    var all_options = __spreadArray([
-        decodeHtml(question.correct_answer)
-    ], question.incorrect_answers.map(decodeHtml), true);
-    var shuffled_options = all_options.sort(function () { return Math.random() - 0.5; });
-    shuffled_options.forEach(function (option, index) {
-        console.log("".concat(index + 1, ": ").concat(option));
-    });
-    console.log("----------");
-    return shuffled_options.indexOf(decodeHtml(question.correct_answer)) + 1;
-}
+startApp();
