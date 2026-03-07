@@ -13,14 +13,14 @@ exports.elo = elo;
  * @returns {Player} Det uppdaterade spelarobjektet.
  **/
 function elo(time, difficulty, answer, player) {
+    // Baspoäng per svårighetsgrad
+    var base = 20 * difficulty;
+    var timeBonus = Math.max(0, 20 - Math.floor(time / 500));
     if (answer) {
-        player.elo += 25 * difficulty;
-    }
-    else if (player.elo <= 0) {
-        player.elo = 0;
+        player.elo += base + timeBonus;
     }
     else {
-        player.elo -= 25 * difficulty;
+        player.elo = Math.max(0, player.elo - base);
     }
     return player;
 }

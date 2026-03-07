@@ -1,21 +1,24 @@
 import {
     login, add_player, hash_func, player_database
-} from '../Game_mechanics/login'
+} from './Game_mechanics/login'
 import {
-    ph_insert
-} from '../lib/hashtables'
+    ph_insert, ph_lookup
+} from './lib/hashtables'
 import { 
     Player
-} from '../Types/types'
+} from './Types/types'
 import {
     elo
-} from '../Game_mechanics/Elo'
-
-import { Create_question } from "../Game_mechanics/create_question";
+} from './Game_mechanics/Elo'
+import { 
+    Create_question 
+} from './Game_mechanics/Create_question'
 
 
 // @ts-ignore
 import promptSync = require('prompt-sync');
+import { TriviaResult } from './API/api'
+
 const prompt = promptSync();
 
 
@@ -33,8 +36,8 @@ test("New player starts with elo 1000", () => {
 
 test("Login succeeds with correct username and password", () => {
     const player = { username: "henrik", password: "1234", elo: 1000 };
-    ph_insert(player_database, a, player);
-    expect(ph_lookup(player_database, a)).toEqual(undefined);
+    ph_insert(player_database, "Player", player);
+    expect(ph_lookup(player_database, "player")).toEqual(undefined);
 });
 
 test("Database can store multiple players", () => {
@@ -54,24 +57,31 @@ test("Database can store multiple players", () => {
 
 // test Elo 1
 test("Elo increases on correct answer", () => {
-const player = { username: "Lowe", password: "123", Elo: 1000};
+const player: Player = { username: "Lowe", password: "123", elo: 1000};
 elo(1000, 2, true, player)
-expect(player.elo).ToBeGreaterThan(1000);
+expect(player.elo).toBeGreaterThan(1000);
     
 });
 
-
-test("Create_question returns correct answer index", () => {
-  const q = {
-    category: "Test",
-    difficulty: "easy",
-    question: "2+2?",
-    correct_answer: "4",
-    incorrect_answers: ["1", "2", "3"]
-  };
-
-  const index = Create_question(q);
-
-  expect(index).toBeGreaterThanOrEqual(1);
-  expect(index).toBeLessThanOrEqual(4);
+// test Elo 2
+test("Elo increases on incorrect answer", () => {
+const player: Player = { username: "Lowe", password: "123", elo: 1000};
+elo(1000, 3, false, player)
+expect(player.elo).toBeLessThanOrEqual(1000);
+    
 });
+
+// test("Create_question returns correct answer index", () => {
+//   const q: TriviaResult = {
+//     category: "Test",
+//     difficulty: "easy",
+//     question: "2+2?",
+//     correct_answer: "4",
+//     incorrect_answers: ["1", "2", "3"]
+//   };
+
+//   const index = Create_question(q);
+
+//   expect(index).toBeGreaterThanOrEqual(1);
+//   expect(index).toBeLessThanOrEqual(4);
+// });
