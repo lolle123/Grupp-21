@@ -4,5 +4,6 @@
     "module": "CommonJS",
     "strict": true,
     "sourceMap": true,
+    "skipLibCheck": true
   }
 }
