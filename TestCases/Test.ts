@@ -5,7 +5,7 @@ import {
     ph_insert
 } from '../lib/hashtables'
 import { 
-    old_player
+    Player
 } from '../Types/types'
 import {
     elo

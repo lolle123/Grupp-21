@@ -15,18 +15,13 @@ export function elo(
     time: number, 
     difficulty: number, 
     answer: boolean, 
-<<<<<<< Updated upstream
-    player: old_player
-): old_player {
+    player: Player
+): Player {
     // Baspoäng per svårighetsgrad
     const base = 20 * difficulty;
 
     const timeBonus = Math.max(0, 20 - Math.floor(time / 500));
 
-=======
-    player: Player
-): Player {
->>>>>>> Stashed changes
     if (answer) {
         player.elo += base + timeBonus;
     } else {
