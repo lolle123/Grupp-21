@@ -3,6 +3,8 @@
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {
-    "@types/node": "^25.3.5"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.3.5",
+    "ts-jest": "^29.4.6"
   }
 }
