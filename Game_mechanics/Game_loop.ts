@@ -3,7 +3,7 @@ import {
 } from '../API/api';
 import {
     collect_questions_from_API, Create_question
-} from './create_question'
+} from './Create_question'
 import {
     elo
 } from './Elo'
