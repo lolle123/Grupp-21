@@ -3,16 +3,13 @@ import {
 } from '../API/api';
 import {
     collect_questions_from_API, Create_question
-} from './Create_question'
+} from './create_question'
 import {
     elo
 } from './Elo'
 import {
     Player
 } from '../Types/types'
-import {
-    startApp
-} from '../main'
 
 // @ts-ignore
 import promptSync = require('prompt-sync');

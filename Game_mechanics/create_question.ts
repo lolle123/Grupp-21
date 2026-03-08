@@ -6,7 +6,7 @@ import { get_questions, TriviaResult } from '../API/api';
  * @returns {string} En ren sträng med korrekta tecken.
  * @complexity O(n) där n är antalet entiteter som ersätts.
  **/
-function decodeHtml(html: string): string {
+export function decodeHtml(html: string): string {
     return html
         .replace(/&quot;/g, '"')
         .replace(/&#039;/g, "'")
