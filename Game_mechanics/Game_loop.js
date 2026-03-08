@@ -40,7 +40,7 @@ exports.game = game;
 exports.question_loop = question_loop;
 exports.compquestion_loop = compquestion_loop;
 exports.end_screen_menu = end_screen_menu;
-var create_question_1 = require("./create_question");
+var Create_question_1 = require("./Create_question");
 var Elo_1 = require("./Elo");
 // @ts-ignore
 var promptSync = require("prompt-sync");
@@ -103,7 +103,7 @@ function question_loop(curnt, diff, player) {
     rätt_svar = 0;
     for (var i = 0; i < 10; i = i + 1) {
         var start = performance.now();
-        var correct_number = (0, create_question_1.Create_question)(curnt[i]);
+        var correct_number = (0, Create_question_1.Create_question)(curnt[i]);
         var svaretprompt = prompt("Ditt svar (Siffra): ");
         var User_choice = parseInt(svaretprompt);
         if (User_choice === correct_number) {
@@ -137,7 +137,7 @@ function compquestion_loop(curnt, diff, player) {
     if (!question)
         return; // inga frågor kvar
     var start = performance.now();
-    var correct_number = (0, create_question_1.Create_question)(question);
+    var correct_number = (0, Create_question_1.Create_question)(question);
     var svaretprompt = prompt("Ditt svar (Siffra): ");
     var User_choice = parseInt(svaretprompt);
     if (User_choice === correct_number) {
@@ -256,7 +256,7 @@ function svår(player) {
             switch (_a.label) {
                 case 0:
                     url = "https://opentdb.com/api.php?amount=10&difficulty=hard";
-                    return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)(url)];
+                    return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)(url)];
                 case 1:
                     questions = _a.sent();
                     return [4 /*yield*/, start_quiz_round(questions, 3, player)];
@@ -280,7 +280,7 @@ function medel(player) {
             switch (_a.label) {
                 case 0:
                     url = "https://opentdb.com/api.php?amount=10&difficulty=medium";
-                    return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)(url)];
+                    return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)(url)];
                 case 1:
                     questions = _a.sent();
                     return [4 /*yield*/, start_quiz_round(questions, 2, player)];
@@ -304,7 +304,7 @@ function lätt(player) {
             switch (_a.label) {
                 case 0:
                     url = "https://opentdb.com/api.php?amount=10&difficulty=easy";
-                    return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)(url)];
+                    return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)(url)];
                 case 1:
                     questions = _a.sent();
                     return [4 /*yield*/, start_quiz_round(questions, 1, player)];
@@ -336,7 +336,7 @@ function comp(player) {
         var Lätt, medel, hard, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=easy")];
+                case 0: return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=easy")];
                 case 1:
                     Lätt = _a.sent();
                     console.log("\x1b[31mDeleting all files from Document\x1b[0m");
@@ -344,13 +344,13 @@ function comp(player) {
                 case 2:
                     _a.sent();
                     console.log("\x1b[33m100/105 Deleted\x1b[0m");
-                    return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=medium")];
+                    return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=medium")];
                 case 3:
                     medel = _a.sent();
                     return [4 /*yield*/, sleep(6000)];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, (0, create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=hard")];
+                    return [4 /*yield*/, (0, Create_question_1.collect_questions_from_API)("https://opentdb.com/api.php?amount=10&difficulty=hard")];
                 case 5:
                     hard = _a.sent();
                     rätt_svar = 0;

@@ -1,23 +1,23 @@
 import {
     login, add_player, hash_func, player_database
-} from './Game_mechanics/login'
+} from '../Game_mechanics/login'
 import {
     ph_insert, ph_lookup
-} from './lib/hashtables'
+} from '../lib/hashtables'
 import { 
     Player
-} from './Types/types'
+} from '../Types/types'
 import {
     elo
-} from './Game_mechanics/Elo'
+} from '../Game_mechanics/Elo'
 import { 
     Create_question 
-} from './Game_mechanics/Create_question'
+} from '../Game_mechanics/Create_question'
 
 
 // @ts-ignore
 import promptSync = require('prompt-sync');
-import { TriviaResult } from './API/api'
+import { TriviaResult } from '../API/api'
 
 const prompt = promptSync();
 
@@ -51,7 +51,6 @@ test("Database can store multiple players", () => {
     expect(ph_lookup(player_database, "a")).toEqual(p1);
     expect(ph_lookup(player_database, "b")).toEqual(p2);
 });
-
 
 
 
