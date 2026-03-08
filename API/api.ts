@@ -42,7 +42,7 @@
 
         // Kontrollera om statuskoden är 0 (Success) enligt dokumentationen
         if (data.response_code !== 0) {
-            console.log("Ett fel uppstod vid hämtning av frågor. Felkod: " + data.response_code);
+            console.log("A problem occured while gathering questions. Error code: " + data.response_code);
             // Säkerhetsåtgärd: Se till att results är en tom array vid fel 
             data.results = [];
         } else {

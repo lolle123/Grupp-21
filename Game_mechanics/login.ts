@@ -93,5 +93,3 @@ export function add_player(): Player | null {
        return null;
    }
 }
-
-//console.log(ph_lookup(player_database, "antonkung"));

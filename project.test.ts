@@ -147,7 +147,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
             (fetch as jest.Mock).mockResolvedValue({
                 json: () => Promise.resolve({ response_code: 0, results: Array(10).fill(dummyQuestion) })
             });
-
+        
             const modes = ["Easy", "Medium", "Hard", "Comp"];
             for (const mode of modes) {
                 mockInternalPrompt.mockReturnValueOnce(mode); // Välj läge
@@ -165,6 +165,45 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         test('end_screen_menu recursive call on wrong input', async () => {
             mockInternalPrompt.mockReturnValueOnce("99").mockReturnValueOnce("2");
             await end_screen_menu({ ...testP });
+        });
+    });// --- 5. EDGE & BOUNDARY CASES (Ny sektion) ---
+    describe('Edge Cases & Boundaries', () => {
+        
+        test('Boundary: Elo at exactly 0 should stay 0 on wrong answer', () => {
+            const p = { ...testP, elo: 0 };
+            elo(1000, 1, false, p);
+            expect(p.elo).toBe(0);
+        });
+
+        test('Boundary: 0ms response time gives maximum bonus', () => {
+            const p = { ...testP, elo: 1000 };
+            elo(0, 1, true, p); // Base 20 + Bonus (20 - 0) = 40
+            expect(p.elo).toBe(1040);
+        });
+
+        test('Edge: Extremely slow response gives 0 bonus (not negative)', () => {
+            const p = { ...testP, elo: 1000 };
+            elo(999999, 1, true, p); // Bonus blir 0, bara base 20 läggs till
+            expect(p.elo).toBe(1020);
+        });
+
+        test('Edge: decodeHtml handles empty string', () => {
+            expect(decodeHtml("")).toBe("");
+        });
+
+        test('Boundary: Comp mode threshold check (Elo 799 vs 800)', async () => {
+            // Här testar vi gränserna i comp-läget i Game_loop.ts
+            (fetch as jest.Mock).mockResolvedValue({
+                json: () => Promise.resolve({ response_code: 0, results: Array(10).fill(dummyQuestion) })
+            });
+            
+            // Testa precis under gränsen för Medium (799 -> Easy)
+            mockInternalPrompt.mockReturnValueOnce("Comp").mockReturnValue("1").mockReturnValue("2");
+            await game({ ...testP, elo: 799 });
+            
+            // Testa precis på gränsen för Medium (800 -> Medium)
+            mockInternalPrompt.mockReturnValueOnce("Comp").mockReturnValue("1").mockReturnValue("2");
+            await game({ ...testP, elo: 800 });
         });
     });
 });
