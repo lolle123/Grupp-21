@@ -21,8 +21,6 @@ import { TriviaResult } from './API/api'
 
 const prompt = promptSync();
 
-
-
 test("Login succeeds with correct username and password", () => {
     const player = { username: "henrik", password: "1234", elo: 1000 };
     ph_insert(player_database, "henrik", player);
