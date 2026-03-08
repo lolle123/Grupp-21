@@ -12,7 +12,7 @@ import {
 } from '../Game_mechanics/Elo'
 import { 
     Create_question 
-} from '../Game_mechanics/Create_question'
+} from '../Game_mechanics/create_question'
 
 
 // @ts-ignore

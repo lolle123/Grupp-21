@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -147,24 +147,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">    /**
      * Interfacet representerar hur varje enskild fråga ser ut från API:et.
      * Kopierat samma struktur så att parsern JSON kan hitta rätt.
@@ -198,24 +198,24 @@
      *  Det gör att vi kan ha "await" inne i funktionen, vilket gör att koden pausar där tills den får svar.
      *  Promise innebär att vi lovar att vi kommer skicka tillbaka ett paket av typen TriviaResponse.
      */
-    export async function get_questions(api_url: string) : Promise&lt;TriviaResponse&gt; {
+<span class="cstat-no" title="statement not covered" >    export async function <span class="fstat-no" title="function not covered" >g</span>et_questions(</span>api_url: string) : Promise&lt;TriviaResponse&gt; {
         // fetch hämtar URL:en till ett Response-objekt
-        const api_response = await fetch(api_url);
+        const api_response = <span class="cstat-no" title="statement not covered" >await fetch(api_url);</span>
         
         // json är en parser som översätter texten från API:n till vår interface struktur.
         // Eftersom vår interface struktur är uppbyggd på samma sätt som API texten kommer det läggas in korrekt. 
         // Att vi sätter typen som TriviaResponse gör att json fattar att översättningnen kommer matcha vår typ.
-        const data: TriviaResponse = await api_response.json();
+        const data: TriviaResponse = <span class="cstat-no" title="statement not covered" >await api_response.json();</span>
 &nbsp;
         // Kontrollera om statuskoden är 0 (Success) enligt dokumentationen
-        if (data.response_code !== 0) {
-            console.log("Ett fel uppstod vid hämtning av frågor. Felkod: " + data.response_code);
+<span class="cstat-no" title="statement not covered" >        if (data.response_code !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >            console.log("Ett fel uppstod vid hämtning av frågor. Felkod: " + data.response_code);</span>
             // Säkerhetsåtgärd: Se till att results är en tom array vid fel 
-            data.results = [];
+<span class="cstat-no" title="statement not covered" >            data.results = [];</span>
         } else {
         }
         
-        return data; // Skicka tillbaka datan så andra kan använda den
+<span class="cstat-no" title="statement not covered" >        return data; </span>// Skicka tillbaka datan så andra kan använda den
     }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -223,7 +223,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-08T19:05:59.334Z
+                at 2026-03-08T21:02:57.960Z
             </div>
         <script src="../prettify.js"></script>
         <script>
