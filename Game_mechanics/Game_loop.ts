@@ -75,7 +75,7 @@ export function question_loop(curnt: Array<TriviaResult>, diff: number, player: 
             elo(rounded_time, diff, true, player);
         }
         else {
-            console.log(`\x1b[31mWrong Answer brur\x1b[0m
+            console.log(`\x1b[31mWrong Answer\x1b[0m
                 
             `
             )
@@ -113,10 +113,10 @@ export function compquestion_loop(curnt: TriviaResult[], diff: number, player: P
         const end = performance.now();
         const timeTaken = end - start;
         const rounded_time = Math.round(timeTaken / 10) * 10;
-        correct_answer + 1;
+        correct_answer = correct_answer + 1;
         elo(rounded_time, diff, true, player);
     } else {
-        console.log("\x1b[31mWrong Answer brur\x1b[0m");
+        console.log("\x1b[31mWrong Answer\x1b[0m");
         console.log(`Correct Number was ${correct_number}`);
         elo(0, diff, false, player);
     }
@@ -160,7 +160,7 @@ export async function end_screen_menu(Player: Player): Promise<void> {
         return;
     }
     else {
-        console.log("Choose correct number brur!")
+        console.log("Choose correct number!")
         await end_screen_menu(Player);
     }
 }
@@ -240,9 +240,9 @@ function sleep(ms: number) {
  **/
 async function comp(player: Player) {
     const easy = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=easy")
-    console.log("\x1b[31mDeleting all files from Document\x1b[0m");
+    console.log("\x1b[31mLoading the game..\x1b[0m");
         await sleep(6000);
-    console.log("\x1b[33m100/105 Deleted\x1b[0m");
+    console.log("\x1b[33m...\x1b[0m");
     const medium = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=medium")
         await sleep(6000);
     const hard = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard")

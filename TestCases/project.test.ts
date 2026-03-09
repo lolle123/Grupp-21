@@ -1,6 +1,6 @@
 /**
  * project.test.ts 
- * Full täckning för QuizWarrior
+ * Full coverage for QuizWarrior
  */
 
 // @ts-ignore
@@ -43,7 +43,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         mockNow.mockReturnValue(0);
     });
 
-    // --- 1. API.TS & CREATE_QUESTION.TS (Mål: 100%) ---
+    // --- 1. API.TS & CREATE_QUESTION.TS
     describe('API & Formatting Logic', () => {
         test('get_questions handles both success and error codes', async () => {
             (fetch as jest.Mock).mockResolvedValueOnce({
@@ -75,7 +75,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 2. LOGIN.TS (Mål: 100%) ---
+    // --- 2. LOGIN.TS 
     describe('Login & User Management', () => {
         test('hash_func and database interactions', () => {
             expect(hash_func("Adam")).toBe(hash_func("Adam"));
@@ -110,7 +110,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 3. ELO.TS (Mål: 100%) ---
+    // --- 3. ELO.TS
     describe('Elo Calculations', () => {
         test('Elo changes correctly for all branches', () => {
             const p = { ...testP };
@@ -123,7 +123,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 4. GAME_LOOP.TS (Mål: 100% Stmts) ---
+    // --- 4. GAME_LOOP.TS
     describe('Game Flow & Modes', () => {
         
         test('comp mode with high ELO triggers hard questions (line 255)', async () => {
@@ -153,7 +153,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
                 .mockReturnValueOnce("Logout"); // 2. Avbryt när game() anropas igen pga felet
 
             await game({ ...testP });
-            // Nu har vi kört rad 183-184!
+            // Nu har vi kört rad 183-184
         });
 
         test('game handles API fetch failure', async () => {
@@ -184,7 +184,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         test('game handles invalid mode selection', async () => {
             mockInternalPrompt.mockReturnValueOnce("FelVal");
             const res = await game({ ...testP });
-            expect(res).toBe("fel kommand"); 
+            expect(res).toBe("Wrong command"); 
         });
 
         test('question_loop handles answers', () => {
@@ -212,7 +212,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 5. EDGE & BOUNDARY CASES ---
+    // --- 5. EDGE & BOUNDARY CASES
     describe('Edge Cases & Boundaries', () => {
         test('Boundary: Elo at exactly 0 should stay 0 on wrong answer', () => {
             const p = { ...testP, elo: 0 };

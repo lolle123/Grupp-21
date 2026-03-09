@@ -26,7 +26,7 @@ export async function startApp(): Promise<void> {
         const startVal = prompt("Your choice: ");
 
         if (startVal === "2") {
-            console.log("Exitiing program");
+            console.log("Exiting program");
             break;
         } else if (startVal === "1") {
             const loggedInPlayer = login();
