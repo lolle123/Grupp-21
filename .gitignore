@@ -6,3 +6,13 @@ node_modules/
 
 # Log
 npm-debug.log*
+
+coverage/
+
+# Ignorera mappar med testrapporter (Coverage)
+coverage/
+*.lcov
+lcov-report/
+
+# Om du vill vara extra säker på att städa upp
+.nyc_output/
