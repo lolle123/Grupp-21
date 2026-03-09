@@ -39,7 +39,7 @@ export async function game(activePlayer: Player) : Promise<any> {
         await comp(activePlayer);
     }
     else {
-        return "Fel Kommand";
+        return "fel kommand";
     }
 }
 
