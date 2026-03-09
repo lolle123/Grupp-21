@@ -1,52 +1,51 @@
-    /**
-     * Interfacet representerar hur varje enskild fråga ser ut från API:et.
-     * Kopierat samma struktur så att parsern JSON kan hitta rätt.
-    **/ 
-    export interface TriviaResult {
-        type: string;
-        difficulty: string;
-        category: string;
-        question: string;
-        correct_answer: string;
-        incorrect_answers: Array<string>;
-    }
+/**
+ * This interface represents the structure of each individual question from the API.
+ * It mirrors the API's JSON structure so the parser can map the data correctly.
+**/
+export interface TriviaResult {
+    type: string;
+    difficulty: string;
+    category: string;
+    question: string;
+    correct_answer: string;
+    incorrect_answers: Array<string>;
+}
 
-    /**
-     * Hela svaret från API:et
-     * response_code: Detta är en statuskod.
-     * 0 = Allt gick bra (Success).
-     * Andra siffrora innebär att något gick fel
-     * Bra då vi borde köra response_code === 0 när vi startar spelet
-    **/
-    export interface TriviaResponse {
-        response_code: number;
-        results: Array<TriviaResult>;
-    }
 
-    /**
-     * Hämtar data från API länk och omvandlar till 
-     * 
-     * Info för att förstå funktionen:
-     *  Då API_URL verkar ta tid att ladda ner från nätet behövs "async" innan function. 
-     *  Det gör att vi kan ha "await" inne i funktionen, vilket gör att koden pausar där tills den får svar.
-     *  Promise innebär att vi lovar att vi kommer skicka tillbaka ett paket av typen TriviaResponse.
-     */
+/**
+ * The complete response object from the API.
+ * response_code: A status indicator.
+ * 0 = Success.
+ * Other codes indicate differnet errors (for example, no results found).
+ **/
+export interface TriviaResponse {
+    response_code: number;
+    results: Array<TriviaResult>;
+}
+
+/**
+ * Fetches data from a provided API URL and converts it into a typed object.
+ * Function details:
+ * - Marked as "async" because fetching data over a network takes time.
+ * - Uses "await" to pause execution until the response is received.
+ * - Returns a "Promise", guaranteeing a TriviaResponse object in the future.
+ * @param {string} api_url - The endpoint to fetch questions from.
+ * @returns {Promise<TriviaResponse>} The parsed data from the API.
+ */
     export async function get_questions(api_url: string) : Promise<TriviaResponse> {
-        // fetch hämtar URL:en till ett Response-objekt
-        const api_response = await fetch(api_url);
-        
-        // json är en parser som översätter texten från API:n till vår interface struktur.
-        // Eftersom vår interface struktur är uppbyggd på samma sätt som API texten kommer det läggas in korrekt. 
-        // Att vi sätter typen som TriviaResponse gör att json fattar att översättningnen kommer matcha vår typ.
-        const data: TriviaResponse = await api_response.json();
+    // fetch retrieves the data from the URL and returns a Response object
+    const api_response = await fetch(api_url);
 
-        // Kontrollera om statuskoden är 0 (Success) enligt dokumentationen
-        if (data.response_code !== 0) {
-            console.log("A problem occured while gathering questions. Error code: " + data.response_code);
-            // Säkerhetsåtgärd: Se till att results är en tom array vid fel 
-            data.results = [];
-        } else {
-        }
-        
-        return data; // Skicka tillbaka datan så andra kan använda den
-    }
+    // api_response.json() parses the raw text into our defined interface structure.
+    // TypeScript ensures that the translated data matches the TriviaResponse type.
+    const data: TriviaResponse = await api_response.json();
+
+    // Check if the response code is 0 (Success) according to API documentation
+    if (data.response_code !== 0) {
+        console.log("A problem occured while gathering questions. Error code: " + data.response_code);
+        // Safety measure: Ensure results is an empty array if the fetch fails
+        data.results = [];
+    } else {
+   }    
+    return data; // Sends the data back so we can use it
+}

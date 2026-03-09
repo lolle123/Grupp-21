@@ -10,11 +10,12 @@ import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
 /**
+ * Taken from PKD lecture.
  * Gives strings a number so they can be used as keys in hash function.
- * Genererar ett hash-värde för en given strängnyckel.
- * @param {string} key - Strängen som ska hashas.
- * @returns {number} Det resulterande heltalet (hash-värdet).
- * @complexity O(n) där n är längden på strängen key.
+ * Generates a new hash value given a key.
+ * @param {string} key - String that's going to be hashed.
+ * @returns {number} The resulting number (hash-key).
+ * @complexity O(n) where n is the length of the string of key.
  **/
 export const hash_func = (key: string): number => {
    let hash = 0
@@ -25,60 +26,60 @@ export const hash_func = (key: string): number => {
 };
 
 /**
- * En hashtabell som fungerar som databas för alla registrerade spelare.
+ * A hashtable that works as a database for all registered players.
  */
 export let player_database = (ph_empty<string, Player>(10, hash_func));
 
 /**
- * Räknare för antal misslyckade inloggningsförsök.
+ * Counter for failed login attempts.
  */
 let tries = 0;
 
 /**
- * Hanterar inloggningsprocessen genom att kontrollera användarnamn och lösenord.
+ * Handles login by controlling and verifying username and password.
  * @example login();
- * @returns {Player | null} Returnerar spelaren vid lyckad inloggning, annars null.
- * @precondition tries måste vara mindre än 3 för att tillåta nya försök.
- * @complexity O(1) i genomsnitt för uppslagning i hashtabellen.
+ * @returns {Player | null} Returns player if login was succesful, otherwise null.
+ * @precondition tries must be below 3 to allow login.
+ * @complexity Average of O(1) for searching in the hashtable.
  **/
 export function login(): Player | null {
     // Variant: 3 - tries
-   let username_try = prompt("Användarnamn: ")
+   let username_try = prompt("Username: ")
    if (username_try !== null && tries < 3) {
-       let spelare = ph_lookup(player_database, username_try);
-       if (spelare !== undefined) {
-           let password_try = prompt("Lösenord: ")
-           if (password_try === spelare.password) {
-               console.log(`Inloggad! Spelet startar
+       let player = ph_lookup(player_database, username_try);
+       if (player !== undefined) {
+           let password_try = prompt("Password: ")
+           if (password_try === player.password) {
+               console.log(`Logged in! Game is starting
                 `)
                tries = 0;
-               return spelare;
+               return player;
            }
            else {
-               console.log("Fel lösenord")
+               console.log("Wrong Password")
                tries = tries + 1;
                return login();
            }
           
        }
        else {
-           console.log("Användare finns inte, skapa konto!");
+           console.log("User does not exist, create account!");
            return add_player();
        }
    }
    else {
-       console.log("Invalid/För många försök");
+       console.log("Invalid/Too many tries");
 } return null;
 }  
 
 /**
- * Registrerar en ny spelare i systemet med en start-ELO på 1000.
- * @returns {Player | null} Den nyskapade spelaren eller null vid fel.
- * @complexity O(1) för insättning i hashtabellen.
+ * Registers a new player in the system with a base Elo of 1000.
+ * @returns {Player | null} The new player or null if wrong.
+ * @complexity O(1) for insertion into the hashtable.
  */
 export function add_player(): Player | null {
-   const username = prompt("Lägg till användarnamn: ")
-   const password = prompt("Lägg till lösenord: ")
+   const username = prompt("Add a username: ")
+   const password = prompt("Add a password: ")
    if (username !== null && password !== null) {
        const new_player : Player = {
            username : username,
@@ -89,7 +90,7 @@ export function add_player(): Player | null {
        return new_player;
    }
    else {
-       console.log("Felaktigt användarnamn eller lösenord");
+       console.log("Wrong username or password");
        return null;
    }
 }

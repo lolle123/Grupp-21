@@ -1,10 +1,10 @@
 import { get_questions, TriviaResult } from '../API/api';
 
 /**
- * Översätter strängarna från HTML till en sträng med vanliga tecken.
- * @param {string} html - Strängen som innehåller HTML-entiteter.
- * @returns {string} En ren sträng med korrekta tecken.
- * @complexity O(n) där n är antalet entiteter som ersätts.
+ * Translates HTML entities in strings back to standard characters.
+ * @param {string} html - The string containing HTML entities.
+ * @returns {string} A sanitized string with correct characters.
+ * @complexity O(n) where n is the number of entities replaced.
  **/
 export function decodeHtml(html: string): string {
     return html
@@ -16,11 +16,11 @@ export function decodeHtml(html: string): string {
 }
 
 /**
- * Hämtar frågor från API:et och returnerar dem som en lista.
- * @param {string} api_url - URL-strängen till API-tjänsten.
- * @returns {Promise<Array<TriviaResult>>} Ett löfte som innehåller en 
- * lista med frågor.
- * @complexity O(n) där n är antalet frågor i svaret.
+ * Fetches questions from the API and returns them as an array.
+ * @param {string} api_url - The URL string for the API service.
+ * @returns {Promise<Array<TriviaResult>>} A promise containing a 
+ * list of questions.
+ * @complexity O(n) where n is the number of questions in the response.
  **/
 export async function collect_questions_from_API(api_url: string): Promise<Array<TriviaResult>> {
     const API_response = await get_questions(api_url);
@@ -31,25 +31,28 @@ export async function collect_questions_from_API(api_url: string): Promise<Array
 }
 
 /**
- * Skapar en fråga i terminalen och returnerar det korrekta svarsnumret.
- * @param {TriviaResult} question - Frågeobjektet som ska visas.
- * @returns {number} Indexet för det korrekta svaret.
- * @complexity O(k * log(k)) där k är antalet svarsalternativ (sortering).
+ * Displays a question in the terminal and returns the index of the correct answer.
+ * @param {TriviaResult} question - The question object to be displayed.
+ * @returns {number} The index of the correct answer.
+ * @complexity O(k * log(k)) where k is the number of answer options (due to sorting).
  **/
 export function Create_question(question: TriviaResult): number {
     console.log();
     console.log("----------");
-    console.log(`Kategori: ${decodeHtml(question.category)}`);
-    console.log(`Svårighetsgrad: ${decodeHtml(question.difficulty)}`);
-    console.log(`Fråga: ${decodeHtml(question.question)}`); 
+    console.log(`Category: ${decodeHtml(question.category)}`);
+    console.log(`Difficulty: ${decodeHtml(question.difficulty)}`);
+    console.log(`Question: ${decodeHtml(question.question)}`); 
     console.log()
-    console.log("Svarsalternativ:");
+    console.log("Answer options:");
 
-    const all_options = [
-        decodeHtml(question.correct_answer),
-        ...question.incorrect_answers.map(decodeHtml)
-    ];
+    const all_options = [decodeHtml(question.correct_answer)];
+    
+    //Pushes the incorrect answers into the all.options array as well
+    question.incorrect_answers.forEach((option) => {
+        all_options.push(decodeHtml(option));
+    });
 
+    // Shuffles the options so the correct answer isn't always at the same position
     const shuffled_options = all_options.sort(() => Math.random() - 0.5);
 
     shuffled_options.forEach((option: string, index: number) => {

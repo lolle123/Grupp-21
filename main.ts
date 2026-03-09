@@ -10,35 +10,36 @@ import promptSync = require('prompt-sync');
 const prompt = promptSync();
 
 /**
- * Huvudfunktionen som startar applikationen och hanterar inloggningsloopen.
- * @complexity O(n) där n är antalet gånger användaren väljer att logga in.
- * @returns {Promise<void>} Ett löfte som hanterar applikationens livscykel.
+ * The main function that starts the application and manages the login loop.
+ * @complexity O(n) where n is the number of times the user chooses to log in.
+ * @returns {Promise<void>} A promise managing the application's lifecycle.
  */
 export async function startApp(): Promise<void> {
-    // Vi lägger allt i en loop så man kommer tillbaka hit efter "Logga ut"
+    // A loop so the user returns to the start menu after logging out
     while (true) {
         console.log();
         console.log("------ QuizWarrior ------");
-        console.log("1) Logga in / Skapa konto");
-        console.log("2) Avsluta programmet");
+        console.log("1) Login / Create Account");
+        console.log("2) Exit program");
         
         console.log();
-        const startVal = prompt("Ditt val: ");
+        const startVal = prompt("Your choice: ");
 
         if (startVal === "2") {
-            console.log("Programmet avslutas");
+            console.log("Exitiing program");
             break;
         } else if (startVal === "1") {
             const loggedInPlayer = login();
             if (loggedInPlayer !== null) {
                 await game(loggedInPlayer);
-                // När game() är klar (vid logout) kommer vi tillbaka hit
-                // och loopen startar om, vilket visar startmenyn igen.
+                // When game() finishes (on logout), control returns here
+                // and the loop restarts, displaying the start menu again.
             }
         } else {
-            console.log("Vänligen välj 1 eller 2.");
+            console.log("Please choose 1 or 2.");
         }
     }
 }
 
+// Starts the program
 startApp();
