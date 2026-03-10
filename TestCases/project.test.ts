@@ -1,12 +1,7 @@
-/**
- * project.test.ts 
- * Full coverage for QuizWarrior
- */
-
 // @ts-ignore
 import promptSync = require('prompt-sync');
 
-// 1. MOCKING
+// Mocking setup so tests wont stop and wait for manual terminal input from user.
 const mockInternalPrompt = jest.fn();
 jest.mock('prompt-sync', () => () => mockInternalPrompt);
 
@@ -25,7 +20,7 @@ import { get_questions } from '../API/api';
 import { ph_insert } from '../lib/hashtables';
 import { Player } from '../Types/types';
 
-describe('QuizWarrior Ultimate Coverage Suite', () => {
+describe('QuizWarrior Coverage Suite', () => {
     
     const dummyQuestion = {
         type: "multiple",
@@ -36,15 +31,15 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         incorrect_answers: ["No"]
     };
 
-    const testP: Player = { username: "Testare", password: "123", elo: 1000 };
+    const testP: Player = { username: "Tester", password: "123", elo: 1000 };
 
     beforeEach(() => {
         jest.clearAllMocks();
         mockNow.mockReturnValue(0);
     });
 
-    // --- 1. API.TS & CREATE_QUESTION.TS
-    describe('API & Formatting Logic', () => {
+    // 1. API.TS and CREATE_QUESTION.TS
+    describe('API and Formatting Logic', () => {
         test('get_questions handles both success and error codes', async () => {
             (fetch as jest.Mock).mockResolvedValueOnce({
                 json: () => Promise.resolve({ response_code: 0, results: [dummyQuestion] })
@@ -70,22 +65,22 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
             (fetch as jest.Mock).mockResolvedValue({
                 json: () => Promise.resolve({ response_code: 0, results: [dummyQuestion] })
             });
-            const res = await collect_questions_from_API("url");
-            expect(res[0].category).toBe("General");
+            const Api_first = await collect_questions_from_API("url");
+            expect(Api_first[0].category).toBe("General");
         });
     });
 
-    // --- 2. LOGIN.TS 
+    // 2. LOGIN.TS 
     describe('Login & User Management', () => {
         test('hash_func and database interactions', () => {
             expect(hash_func("Adam")).toBe(hash_func("Adam"));
-            ph_insert(player_database, "Testare", testP);
+            ph_insert(player_database, "Tester", testP);
         });
 
         test('add_player handles valid and null input', () => {
             mockInternalPrompt.mockReturnValueOnce("NyAnvändare").mockReturnValueOnce("Lösen");
-            const p = add_player();
-            expect(p?.username).toBe("NyAnvändare");
+            const player = add_player();
+            expect(player?.username).toBe("NyAnvändare");
 
             mockInternalPrompt.mockReturnValue(null);
             expect(add_player()).toBeNull();
@@ -110,7 +105,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 3. ELO.TS
+    // 3. ELO.TS
     describe('Elo Calculations', () => {
         test('Elo changes correctly for all branches', () => {
             const p = { ...testP };
@@ -123,7 +118,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 4. GAME_LOOP.TS
+    // 4. GAME_LOOP.TS
     describe('Game Flow & Modes', () => {
         
         test('comp mode with high ELO triggers hard questions (line 255)', async () => {
@@ -143,17 +138,17 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
 
         test('start_quiz_round handles case with not 10 questions (lines 183-184)', async () => {
-            // Simulera att vi får 0 frågor istället för 10
+            // Simulateing 0 questions insted of 10
             (fetch as jest.Mock).mockResolvedValueOnce({
                 json: () => Promise.resolve({ response_code: 0, results: [] })
             });
 
             mockInternalPrompt
-                .mockReturnValueOnce("Easy")    // 1. Trigga start_quiz_round
-                .mockReturnValueOnce("Logout"); // 2. Avbryt när game() anropas igen pga felet
+                .mockReturnValueOnce("Easy")   
+                .mockReturnValueOnce("Logout");
 
             await game({ ...testP });
-            // Nu har vi kört rad 183-184
+            
         });
 
         test('game handles API fetch failure', async () => {
@@ -200,7 +195,7 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
             const modes = ["Easy", "Medium", "Hard", "Comp"];
             for (const mode of modes) {
                 mockInternalPrompt.mockReturnValueOnce(mode); 
-                for(let i=0; i<10; i++) mockInternalPrompt.mockReturnValueOnce("1"); 
+                for(let i = 0; i < 10; i++) mockInternalPrompt.mockReturnValueOnce("1"); 
                 mockInternalPrompt.mockReturnValueOnce("2"); 
                 await game({ ...testP });
             }
@@ -212,15 +207,15 @@ describe('QuizWarrior Ultimate Coverage Suite', () => {
         });
     });
 
-    // --- 5. EDGE & BOUNDARY CASES
-    describe('Edge Cases & Boundaries', () => {
-        test('Boundary: Elo at exactly 0 should stay 0 on wrong answer', () => {
+    // 5. Edge and corner cases
+    describe('Edge Cases and corners', () => {
+        test('corner: Elo at exactly 0 should stay 0 on wrong answer', () => {
             const p = { ...testP, elo: 0 };
             elo(1000, 1, false, p);
             expect(p.elo).toBe(0);
         });
 
-        test('Boundary: 0ms response time gives maximum bonus', () => {
+        test('corner: 0ms response time gives maximum bonus', () => {
             const p = { ...testP, elo: 1000 };
             elo(0, 1, true, p); 
             expect(p.elo).toBe(1040);

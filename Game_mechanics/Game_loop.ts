@@ -242,7 +242,7 @@ async function comp(player: Player) {
     const easy = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=easy")
     console.log("\x1b[31mLoading the game..\x1b[0m");
         await sleep(6000);
-    console.log("\x1b[33m...\x1b[0m");
+    console.log("\x1b[33mLoading...\x1b[0m");
     const medium = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=medium")
         await sleep(6000);
     const hard = await collect_questions_from_API("https://opentdb.com/api.php?amount=10&difficulty=hard")
