@@ -1,5 +1,5 @@
 "use strict";
 /**
- * Här skriver vi våra typer nödvändiga för vårt projekt.
+ * Here are the types we made for the program.
  */
 Object.defineProperty(exports, "__esModule", { value: true });

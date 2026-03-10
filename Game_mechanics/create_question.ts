@@ -34,7 +34,7 @@ export async function collect_questions_from_API(api_url: string): Promise<Array
  * Displays a question in the terminal and returns the index of the correct answer.
  * @param {TriviaResult} question - The question object to be displayed.
  * @returns {number} The index of the correct answer.
- * @complexity O(k * log(k)) where k is the number of answer options (due to sorting).
+ * @complexity O(n * log(n)) where n is the number of answer options.
  **/
 export function Create_question(question: TriviaResult): number {
     console.log();

@@ -100,7 +100,7 @@ export function compquestion_loop(curnt: TriviaResult[], diff: number, player: P
 
     // Take first question.
     const question = curnt.shift();
-    if (!question) return; // No remaining questions.
+    if (!question) return;
 
     const start = performance.now();
     const correct_number = Create_question(question);

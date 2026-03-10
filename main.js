@@ -61,7 +61,7 @@ function startApp() {
                     console.log();
                     startVal = prompt("Your choice: ");
                     if (!(startVal === "2")) return [3 /*break*/, 1];
-                    console.log("Exitiing program");
+                    console.log("Exiting program");
                     return [3 /*break*/, 6];
                 case 1:
                     if (!(startVal === "1")) return [3 /*break*/, 4];

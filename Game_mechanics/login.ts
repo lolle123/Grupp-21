@@ -40,7 +40,7 @@ let tries = 0;
  * @example login();
  * @returns {Player | null} Returns player if login was succesful, otherwise null.
  * @precondition tries must be below 3 to allow login.
- * @complexity Average of O(1) for searching in the hashtable.
+ * @complexity O(n) for searching in the hashtable.
  **/
 export function login(): Player | null {
     // Variant: 3 - tries
@@ -75,7 +75,7 @@ export function login(): Player | null {
 /**
  * Registers a new player in the system with a base Elo of 1000.
  * @returns {Player | null} The new player or null if wrong.
- * @complexity O(1) for insertion into the hashtable.
+ * @complexity O(n) for insertion into the hashtable.
  */
 export function add_player(): Player | null {
    const username = prompt("Add a username: ")
